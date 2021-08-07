@@ -1,0 +1,26 @@
+{
+    "sourceMaps": true,
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+          "syntax": "ecmascript",
+          "jsx": true,
+          "decorators": false,
+          "dynamicImport": false
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "target": "es5",
+        "loose": true
+    },
+    "module": {
+        "type": "commonjs",
+        "strict": true,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false
+    }
+}
