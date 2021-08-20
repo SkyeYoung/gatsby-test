@@ -1,15 +1,14 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {Helmet} from "react-helmet"
 import rehypeReact, {Options} from "rehype-react";
 import {unified} from "unified";
 import {Root} from "rehype-react/lib";
 import {DeepRequiredNonNull} from "../types/common";
 import {graphql} from "gatsby";
-import Header from "../components/Header";
-import {CssBaseline} from "@material-ui/core";
 import Main from "../components/Main";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import Sidebar from "../components/Sidebar";
+import {infoStore} from "../stores";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -21,6 +20,7 @@ export const query = graphql`
                 path
                 title
             }
+            toc: tableOfContents
             parent {
                 ... on File {
                     name
@@ -33,7 +33,6 @@ export const query = graphql`
         site {
             siteMetadata {
                 title
-                description
             }
         }
     }`
@@ -57,33 +56,24 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
         site
     } = data
 
+    const ContentParser = contentParser();
     const siteTitle = site.siteMetadata.title
     const title = post.frontmatter.title || post.parent.name;
-    const ContentParser = contentParser();
+
+    useEffect(() => {
+        infoStore.title = title
+    }, [title])
 
     return (
         <>
-            <Helmet>
-                <title>{`${title ? title + '-' : ''}${siteTitle}`}</title>
-                <meta name={'description'} content={site.siteMetadata.description}/>
-            </Helmet>
+            <Helmet title={`${title ? title + '-' : ''}${siteTitle}`}/>
 
-            <CssBaseline/>
+            <Sidebar toc={post.toc}/>
 
-            <Box sx={{display: 'flex', flexFlow: 'column', height: '100vh'}}>
-                <Header title={title}/>
-
-                <Box sx={{display: 'flex', flexGrow: 1}}>
-                    <Box sx={{
-                        width: '250px',
-                        borderRight: '1px solid #dfdfdf'
-                    }}/>
-                    <Main>
-                        <Typography variant={'h1'}>{title}</Typography>
-                        <ContentParser htmlAst={post.htmlAst}/>
-                    </Main>
-                </Box>
-            </Box>
+            <Main>
+                <Typography variant={'h1'}>{title}</Typography>
+                <ContentParser htmlAst={post.htmlAst}/>
+            </Main>
         </>
     )
 }

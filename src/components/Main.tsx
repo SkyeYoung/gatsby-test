@@ -3,9 +3,10 @@ import Box, {BoxProps} from "@material-ui/core/Box";
 import styled from "@emotion/styled";
 import {css} from "@emotion/react";
 import {IconButton, IconButtonProps, useTheme} from "@material-ui/core";
-import {MdNavigateBefore, MdNavigateNext} from "react-icons/all";
+import {MdNavigateBefore, MdNavigateNext} from "react-icons/md";
 import {IconType} from "react-icons";
 import Footer from "./Footer";
+import {observer} from "mobx-react-lite";
 
 const Content = styled(Box)(() => {
     const theme = useTheme()
@@ -24,10 +25,9 @@ const Content = styled(Box)(() => {
     `
 })
 
-const NavBtn: React.FC<IconButtonProps & { Icon: IconType, label: string }> = (props) => {
-    const {Icon, label, sx, ...others} = props
+const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = (props) => {
+    const {Icon, sx, ...others} = props
     return <IconButton
-        aria-label={label}
         sx={{
             position: "fixed",
             top: "60%",
@@ -44,27 +44,31 @@ const NavBtn: React.FC<IconButtonProps & { Icon: IconType, label: string }> = (p
     </IconButton>
 }
 
+const PrevNavBtn = observer(() => (
+    <NavBtn Icon={MdNavigateBefore} aria-label={'prev'}/>
+))
 
-const Nav: React.FC = () => {
-    return (
-        <>
-            <NavBtn Icon={MdNavigateBefore} label={'prev'} sx={{left: '250px'}}/>
-            <NavBtn Icon={MdNavigateNext} label={'next'} sx={{right: 0}}/>
-        </>
-    )
-}
+const NextNavBtn = observer(() => (
+    <NavBtn Icon={MdNavigateNext} aria-label={'next'} sx={{right: 0}}/>
+))
 
-const NavMemo = React.memo(Nav, () => true)
-
-const Main: React.FC<BoxProps> = (props) => {
+const Main: React.FC<BoxProps> = observer((props) => {
     const {children, ...others} = props
+
     return (
-        <Box sx={{display: 'flex', flexFlow: 'column', flexGrow: 1, position: 'relative'}}  {...others}>
+        <Box sx={{
+            display: 'flex',
+            flexFlow: 'column',
+            flexGrow: 1,
+            position: 'relative',
+        }} {...others}>
             <Content>{children}</Content>
-            <NavMemo/>
+           
+            <PrevNavBtn/>
+            <NextNavBtn/>
             <Footer/>
         </Box>
     )
-}
+})
 
 export default Main

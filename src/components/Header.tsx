@@ -3,9 +3,13 @@ import {GatsbyLinkProps, graphql, Link as GLink, useStaticQuery} from "gatsby";
 import React, {useState} from "react";
 import {DeepRequiredNonNull} from "../types/common";
 import Stack from "@material-ui/core/Stack";
-import {AppBar, Link, LinkProps, Slide} from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Link, {LinkProps} from "@material-ui/core/Link";
+import Slide from "@material-ui/core/Slide"
 import {useScroll} from "@use-gesture/react";
 import {window} from "../utils/common";
+import {observer} from "mobx-react-lite";
+import {headerStore, infoStore} from "../stores";
 
 type InSiteLink = {
     outSite?: false,
@@ -21,14 +25,16 @@ const HeaderLink: React.FC<InSiteLink | OutSiteLink> = (props) => {
         others.target = '_blank'
         others.rel = 'noopener'
     }
-    return <Link component={outSite ? 'a' : GLink}
-                 variant={'h6'}
-                 underline={'none'}
-                 color={'white'}
-                 {...others}/>
+    return (
+        <Link component={outSite ? 'a' : GLink}
+              variant={'h6'}
+              underline={'none'}
+              color={'white'}
+              {...others}/>
+    )
 }
 
-const Header: React.FC<{ title: string }> = (props) => {
+const Header: React.FC = observer(() => {
     const data = useStaticQuery<GatsbyTypes.SiteInfoQuery>(graphql`
         query SiteInfo {
             site {
@@ -42,19 +48,18 @@ const Header: React.FC<{ title: string }> = (props) => {
 
     const siteTitle = data.site.siteMetadata.title
     const [title, setTitle] = useState(siteTitle)
-    const [elevation, setElevation] = useState(0)
-    const [appear, setAppear] = useState(true);
+    const [elevation, setElevation] = useState(0);
 
     useScroll(({xy: [, y], delta: [, dy]}) => {
-        setTitle(y > 0 ? props.title : siteTitle)
-        setElevation(y > 0 ? 3 : 0)
-        setAppear(y <= 260 || dy < 0)
+        setTitle(y > 0 ? infoStore.title : siteTitle)
+        setElevation(y > 0 ? 2 : 0)
+        headerStore.appear = y <= 260 || dy < 0
     }, {
         target: window
     })
 
     return (
-        <Slide appear={false} direction={'down'} in={appear}>
+        <Slide appear={false} direction={'down'} in={headerStore.appear}>
             <AppBar
                 elevation={elevation}
                 sx={{
@@ -63,7 +68,7 @@ const Header: React.FC<{ title: string }> = (props) => {
                     position: 'sticky',
                     top: 0,
                     padding: '0 20px',
-                    height: '60px'
+                    height: 60
                 }}>
                 <HeaderLink to={'/'}>{title}</HeaderLink>
                 <Box sx={{flexGrow: 1}}/>
@@ -77,8 +82,6 @@ const Header: React.FC<{ title: string }> = (props) => {
             </AppBar>
         </Slide>
     )
-}
+})
 
-const HeaderMemo = React.memo(Header)
-
-export default HeaderMemo
+export default Header
