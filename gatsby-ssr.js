@@ -1,6 +1,6 @@
 const React = require("react");
 const {enableStaticRendering} = require("mobx-react-lite");
-const Layout = require("./src/components/ArticleLayout").default
+const Layout = require("./src/components/Layout").default
 
 enableStaticRendering(true)
 

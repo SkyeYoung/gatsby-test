@@ -3,7 +3,7 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
 
-const ArticleLayout: React.FC = (props) => {
+const Layout: React.FC = (props) => {
     return (
         <>
             <CssBaseline/>
@@ -20,4 +20,4 @@ const ArticleLayout: React.FC = (props) => {
     )
 }
 
-export default ArticleLayout
+export default Layout
