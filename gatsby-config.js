@@ -17,6 +17,9 @@ module.exports = {
             resolve: "gatsby-transformer-remark"
         },
         {
+            resolve: "gatsby-plugin-mui-emotion"
+        },
+        {
             resolve: "gatsby-source-filesystem",
             options: {
                 name: './docs',

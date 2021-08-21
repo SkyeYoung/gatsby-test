@@ -17,7 +17,9 @@
     "clear": "yarn cl-gen && yarn clean"
   },
   "dependencies": {
+    "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.4.1",
+    "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^5.0.0-beta.4",
     "@use-gesture/react": "^10.0.0-beta.22",
