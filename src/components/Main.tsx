@@ -1,29 +1,26 @@
 import React from "react";
 import Box, {BoxProps} from "@material-ui/core/Box";
-import styled from "@emotion/styled";
 import {css} from "@emotion/react";
-import {IconButton, IconButtonProps, useTheme} from "@material-ui/core";
+import {IconButton, IconButtonProps} from "@material-ui/core";
 import {MdNavigateBefore, MdNavigateNext} from "react-icons/md";
 import {IconType} from "react-icons";
 import Footer from "./Footer";
 import {observer} from "mobx-react-lite";
+import styled from "@material-ui/core/styles/styled";
 
-const Content = styled(Box)(() => {
-    const theme = useTheme()
-    return css`
-      flex-grow: 1;
-      margin: auto;
-      padding: 0 120px 120px;
+const Content = styled(Box)(({theme}) => css`
+  flex-grow: 1;
+  margin: auto;
+  padding: 0 120px 120px;
 
-      ${theme.breakpoints.down('xl')} {
-        min-width: 1000px;
-      }
+  ${theme.breakpoints.down('xl')} {
+    min-width: 1000px;
+  }
 
-      ${theme.breakpoints.down('lg')} {
-        min-width: 800px;
-      }
-    `
-})
+  ${theme.breakpoints.down('lg')} {
+    min-width: 800px;
+  }
+`)
 
 const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = (props) => {
     const {Icon, sx, ...others} = props
@@ -63,7 +60,7 @@ const Main: React.FC<BoxProps> = observer((props) => {
             position: 'relative',
         }} {...others}>
             <Content>{children}</Content>
-           
+
             <PrevNavBtn/>
             <NextNavBtn/>
             <Footer/>
