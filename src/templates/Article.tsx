@@ -9,6 +9,9 @@ import Main from "../components/Main";
 import Typography from "@material-ui/core/Typography";
 import Sidebar from "../components/Sidebar";
 import {infoStore} from "../stores";
+import Link from "../components/article/Link";
+import Table from "../components/article/Table";
+import Typo from "../components/article/Typo";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -50,13 +53,18 @@ const contentParser: ContentParserType = (components) => {
     )
 }
 
+const ContentParser = contentParser({
+    a: Link,
+    ...Table,
+    ...Typo
+} as Options['components']);
+
 const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = ({data}) => {
     const {
         markdownRemark: post,
         site
     } = data
 
-    const ContentParser = contentParser();
     const siteTitle = site.siteMetadata.title
     const title = post.frontmatter.title || post.parent.name;
 
