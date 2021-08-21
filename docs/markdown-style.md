@@ -4,7 +4,7 @@ path: "/markdown-style"
 date: 2021/8/18
 ---
 
-# Headers
+# Headings
 
 # H1
 
@@ -20,31 +20,46 @@ date: 2021/8/18
 
 # Emphasis
 
-*bold*，**italic**，~~deleted~~
+*italic*，**bold**，~~deleted~~
+
+# Links
+
+## 站内链接
+
+- [以 / 开头](/test/test-multi-level)
+- [以 ./ 开头](./test/test-multi-level)
+- [以 .md 结尾](test/test-multi-level.md)
+- [以 / 开头, .md 结尾](/test/test-multi-level.md)
+- [/test/../index.md](/test/../index.md)
+
+## 站外链接
+
+- [GitHub](http://github.com)
+- [Google](//google.com)
 
 # List
 
 ## Ordered
 
 1. A
-   1. A.A
-   2. A.B
+    1. A.A
+    2. A.B
 2. B
 3. C
 
 ## UnOrdered
 
 * A
-  * A.A
-    * A.A.A
-    * A.A.B
-  * A.B
+    * A.A
+        * A.A.A
+        * A.A.B
+    * A.B
 * B
 * C
 
 # Code
 
-`inline code`
+行内代码`inline code`
 
 ```javascript
 console.log('block code')
@@ -61,8 +76,7 @@ console.log('block code')
 
 # Table
 
-
 | Syntax    | Description |   Test Text |
 | :---------- | :-----------: | ------------: |
-| Header    |    Title    | Here's this |
+| Headings    |    Title    | Here's this |
 | Paragraph |    Text    |    And more |
