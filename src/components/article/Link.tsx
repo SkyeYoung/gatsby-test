@@ -2,11 +2,6 @@ import React from "react";
 import MLink, {LinkProps as MLinkProps} from "@material-ui/core/Link";
 import {GatsbyLinkProps, Link as GLink} from "gatsby";
 
-type StyledLinkProps<T extends React.Component = any> = MLinkProps & { component?: T }
-const StyledLink: React.FC<StyledLinkProps> = (props) => (
-    <MLink underline={'none'} {...props}/>
-)
-
 type Find = (func: ((exp: string) => boolean), ...exps: string[]) => string | undefined
 const find: Find = (func, ...exps) => exps.find((exp) => func(exp))
 
@@ -19,7 +14,11 @@ const removeIndex = (path: string) => {
     return p
 }
 
-type LinkProps = Omit<StyledLinkProps, 'href'> & Omit<GatsbyLinkProps<any>, 'to'> & { href: string }
+type StyledLinkProps<C extends React.ElementType = typeof GLink> = MLinkProps<C, { component?: C, to?: string }>
+const StyledLink: React.FC<StyledLinkProps> = (props) =>
+    <MLink underline={'none'} {...props}/>
+
+type LinkProps = Omit<MLinkProps, 'href'> & Omit<GatsbyLinkProps<any>, 'to'> & { href: string }
 const Link: React.FC<LinkProps> = (props) => {
     let {href, ...others} = props
     const hasPrefix = !!find(href.startsWith.bind(href), 'http', '//')
@@ -35,7 +34,7 @@ const Link: React.FC<LinkProps> = (props) => {
         // remove index
         href = removeIndex(href)
 
-        return <StyledLink component={GLink} href={href} {...others}/>
+        return <StyledLink component={GLink} to={href} {...others}/>
     }
 }
 
