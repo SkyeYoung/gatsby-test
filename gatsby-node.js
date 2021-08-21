@@ -1,4 +1,5 @@
 const path = require("path")
+const {removeIndex} = require("./src/utils/common");
 
 const withPreSlash = (str = '') => {
     return str.startsWith('/') ? str : '/' + str
@@ -8,12 +9,10 @@ const CHECK_MD_EXP = /(.*)\.mdx?$/
 const INDEX_NAME = 'index'
 
 const getPath = (node) => {
-    const relativePath = node.parent.relativePath.match(CHECK_MD_EXP)[1]
-    const pathWithoutIndex = relativePath.endsWith(INDEX_NAME)
-        ? relativePath.slice(0, -INDEX_NAME.length)
-        : relativePath
+    let relativePath = node.parent.relativePath.match(CHECK_MD_EXP)[1]
+    relativePath = removeIndex(relativePath)
 
-    return withPreSlash(node.frontmatter.path || pathWithoutIndex)
+    return withPreSlash(node.frontmatter.path || relativePath)
 }
 
 exports.createPages = async ({actions, graphql, reporter}) => {

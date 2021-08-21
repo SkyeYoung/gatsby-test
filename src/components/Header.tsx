@@ -13,24 +13,33 @@ import {headerStore, infoStore} from "../stores";
 
 type InSiteLink = {
     outSite?: false,
-} & LinkProps & GatsbyLinkProps<any>
+} & GatsbyLinkProps<any>
 
 type OutSiteLink = {
     outSite: true
-} & LinkProps
+}
 
-const HeaderLink: React.FC<InSiteLink | OutSiteLink> = (props) => {
+type HeaderLinkProps<C extends React.Component = any> = {
+    component?: C,
+    title: string
+} & (InSiteLink | OutSiteLink) & Omit<LinkProps, 'title'>
+
+const HeaderLink: React.FC<HeaderLinkProps> = (props) => {
     const {outSite = false, ...others} = props
+
     if (outSite) {
         others.target = '_blank'
         others.rel = 'noopener'
+    } else {
+        others.component = GLink
     }
+   
     return (
-        <Link component={outSite ? 'a' : GLink}
-              variant={'h6'}
-              underline={'none'}
-              color={'white'}
-              {...others}/>
+        <Link
+            variant={'h6'}
+            underline={'none'}
+            color={'white'}
+            {...others}/>
     )
 }
 
@@ -68,13 +77,14 @@ const Header: React.FC = observer(() => {
                     position: 'sticky',
                     top: 0,
                     padding: '0 20px',
-                    height: 60
+                    height: 60,
                 }}>
-                <HeaderLink to={'/'}>{title}</HeaderLink>
+                <HeaderLink to={'/'} title={'Link to homepage'}>{title}</HeaderLink>
                 <Box sx={{flexGrow: 1}}/>
                 <Stack direction={'row'}>
                     <HeaderLink
                         outSite={true}
+                        title={'Link to GitHub'}
                         href={'//github.com'}>
                         GitHub
                     </HeaderLink>
