@@ -9,7 +9,7 @@ import Sidebar from "../components/Sidebar";
 import {infoStore} from "../stores";
 import Link from "../components/article/Link";
 import Table from "../components/article/Table";
-import Typo from "../components/article/Typo";
+import Typography from "../components/article/Typography";
 import List from "../components/article/List";
 import styled from "@material-ui/core/styles/styled";
 import {Root} from "hast";
@@ -48,14 +48,14 @@ const processor = unified()
         components: {
             a: Link,
             ...Table,
-            ...Typo,
+            ...Typography,
             ...List
         }
     } as Options)
 
 const contentParser = (htmlAst: Root) => (processor.stringify(htmlAst) as never as JSX.Element)
 
-const Title = styled(Typo.h1)`
+const Title = styled(Typography.h1)`
   margin-top: 2.5rem;
 `
 
