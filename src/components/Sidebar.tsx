@@ -19,7 +19,12 @@ const CollapseBtn = observer(() => {
                 right: -BTN_SIZE,
                 borderRadius: 'unset',
                 width: BTN_SIZE,
-                height: BTN_SIZE
+                height: BTN_SIZE,
+                opacity: 0.2,
+                transition: 'opacity 0.3s',
+                '&:hover': {
+                    opacity: 1
+                }
             }}>
             {sidebarStore.collapsed
                 ? <RiMenuUnfoldLine size={ICON_SIZE}/>

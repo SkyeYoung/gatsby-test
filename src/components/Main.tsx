@@ -20,16 +20,20 @@ const Content = styled(Box)(({theme}) => css`
   ${theme.breakpoints.down('lg')} {
     min-width: 800px;
   }
+
+  &:first-child {
+    margin-top: 2.5rem;
+  }
 `)
 
-const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = (props) => {
+const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = observer((props) => {
     const {Icon, sx, ...others} = props
     return <IconButton
         sx={{
             position: "fixed",
             top: "60%",
             margin: "0 20px",
-            opacity: 0.4,
+            opacity: 0.2,
             transition: "opacity 0.3s",
             '&:hover': {
                 opacity: 1
@@ -39,7 +43,7 @@ const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = (props) => {
         {...others}>
         <Icon size={'60px'}/>
     </IconButton>
-}
+})
 
 const PrevNavBtn = observer(() => (
     <NavBtn Icon={MdNavigateBefore} aria-label={'prev'}/>

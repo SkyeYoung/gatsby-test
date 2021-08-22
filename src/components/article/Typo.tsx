@@ -16,7 +16,7 @@ const Code = styled(typoBuilder({component: 'code'}))(({theme}) => css`
   border-radius: .2rem;
   padding: 0.2rem 0.4rem 0;
   margin: 0 0.2rem;
-  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 `)
 
 const Blockquote = styled('blockquote')(({theme}) => css`
@@ -33,7 +33,7 @@ const Typo = {
     h4: typoBuilder({variant: 'h4'}),
     h5: typoBuilder({variant: 'h5'}),
     h6: typoBuilder({variant: 'h6'}),
-    p: typoBuilder({variant: 'body1'}),
+    p: typoBuilder({variant: 'body1', paddingLeft: '2px'}),
     caption: typoBuilder({variant: 'caption'}),
     code: Code,
     blockquote: Blockquote

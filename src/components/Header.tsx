@@ -33,12 +33,15 @@ const HeaderLink: React.FC<HeaderLinkProps> = (props) => {
     } else {
         others.component = GLink
     }
-   
+
     return (
         <Link
             variant={'h6'}
             underline={'none'}
             color={'white'}
+            sx={{
+                margin: 'unset'
+            }}
             {...others}/>
     )
 }

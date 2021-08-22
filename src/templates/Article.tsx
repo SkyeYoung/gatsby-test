@@ -6,12 +6,13 @@ import {Root} from "rehype-react/lib";
 import {DeepRequiredNonNull} from "../types/common";
 import {graphql} from "gatsby";
 import Main from "../components/Main";
-import Typography from "@material-ui/core/Typography";
+import Typography, {TypographyProps} from "@material-ui/core/Typography";
 import Sidebar from "../components/Sidebar";
 import {infoStore} from "../stores";
 import Link from "../components/article/Link";
 import Table from "../components/article/Table";
 import Typo from "../components/article/Typo";
+import List from "../components/article/List";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -56,8 +57,13 @@ const contentParser: ContentParserType = (components) => {
 const ContentParser = contentParser({
     a: Link,
     ...Table,
-    ...Typo
+    ...Typo,
+    ...List
 } as Options['components']);
+
+const Title: React.FC<TypographyProps> = (props) => {
+    return <Typography variant={'h1'} {...props} />
+}
 
 const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = ({data}) => {
     const {
@@ -79,7 +85,7 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
             <Sidebar toc={post.toc}/>
 
             <Main>
-                <Typography variant={'h1'}>{title}</Typography>
+                <Title>{title}</Title>
                 <ContentParser htmlAst={post.htmlAst}/>
             </Main>
         </>
