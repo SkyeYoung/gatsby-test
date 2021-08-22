@@ -4,9 +4,13 @@ path: "/markdown-style"
 date: 2021/8/18
 ---
 
-# Headings
+测试基本的 Markdown 样式。
+
+## Headings
 
 # H1
+
+实际使用时，文章中最高级别的标题应为 H2 。
 
 ## H2
 
@@ -18,13 +22,13 @@ date: 2021/8/18
 
 ###### H6
 
-# Emphasis
+## Emphasis
 
 *italic*，**bold**，~~deleted~~
 
-# Links
+## Links
 
-## 站内链接
+### 站内链接
 
 - [以 / 开头](/test/test-multi-level)
 - [以 ./ 开头](./test/test-multi-level)
@@ -32,14 +36,14 @@ date: 2021/8/18
 - [以 / 开头, .md 结尾](/test/test-multi-level.md)
 - [/test/../index.md](/test/../index.md)
 
-## 站外链接
+### 站外链接
 
 - [GitHub](http://github.com)
 - [Google](//google.com)
 
-# List
+## List
 
-## Ordered
+### Ordered
 
 1. A
     1. A.A
@@ -47,7 +51,7 @@ date: 2021/8/18
 2. B
 3. C
 
-## UnOrdered
+### UnOrdered
 
 * A
     * A.A
@@ -57,7 +61,7 @@ date: 2021/8/18
 * B
 * C
 
-# Code
+## Code
 
 行内代码`inline code`
 
@@ -65,7 +69,7 @@ date: 2021/8/18
 console.log('block code')
 ```
 
-# Blockquote
+## Blockquote
 
 > Stray birds of summer comes to my window to sing and fly away
 >
@@ -74,7 +78,7 @@ console.log('block code')
 >
 > And yellow leaves of ...
 
-# Table
+## Table
 
 | Syntax    | Description |   Test Text |
 | :---------- | :-----------: | ------------: |
