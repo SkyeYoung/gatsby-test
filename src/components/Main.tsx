@@ -20,10 +20,6 @@ const Content = styled(Box)(({theme}) => css`
   ${theme.breakpoints.down('lg')} {
     min-width: 800px;
   }
-
-  &:first-child {
-    margin-top: 2.5rem;
-  }
 `)
 
 const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = observer((props) => {

@@ -2,17 +2,17 @@ import React, {useEffect} from "react"
 import {Helmet} from "react-helmet"
 import rehypeReact, {Options} from "rehype-react";
 import {unified} from "unified";
-import {Root} from "rehype-react/lib";
 import {DeepRequiredNonNull} from "../types/common";
 import {graphql} from "gatsby";
 import Main from "../components/Main";
-import Typography, {TypographyProps} from "@material-ui/core/Typography";
 import Sidebar from "../components/Sidebar";
 import {infoStore} from "../stores";
 import Link from "../components/article/Link";
 import Table from "../components/article/Table";
 import Typo from "../components/article/Typo";
 import List from "../components/article/List";
+import styled from "@material-ui/core/styles/styled";
+import {Root} from "hast";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -41,29 +41,23 @@ export const query = graphql`
         }
     }`
 
-type ContentParserType = (components?: Options['components']) => React.FC<{ htmlAst: Root }>
-const contentParser: ContentParserType = (components) => {
-    const processor = unified()
-        .use(rehypeReact, {
-            createElement: React.createElement,
-            components
-        } as Options)
+const processor = unified()
+    .use(rehypeReact, {
+        createElement: React.createElement,
+        Fragment: React.Fragment,
+        components: {
+            a: Link,
+            ...Table,
+            ...Typo,
+            ...List
+        }
+    } as Options)
 
-    return ({htmlAst}) => (
-        processor.stringify(htmlAst)
-    )
-}
+const contentParser = (htmlAst: Root) => (processor.stringify(htmlAst) as never as JSX.Element)
 
-const ContentParser = contentParser({
-    a: Link,
-    ...Table,
-    ...Typo,
-    ...List
-} as Options['components']);
-
-const Title: React.FC<TypographyProps> = (props) => {
-    return <Typography variant={'h1'} {...props} />
-}
+const Title = styled(Typo.h1)`
+  margin-top: 2.5rem;
+`
 
 const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = ({data}) => {
     const {
@@ -80,13 +74,15 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
 
     return (
         <>
-            <Helmet title={`${title ? title + '-' : ''}${siteTitle}`}/>
+            <Helmet title={`${title ? title + ' - ' : ''}${siteTitle}`}/>
 
             <Sidebar toc={post.toc}/>
 
             <Main>
                 <Title>{title}</Title>
-                <ContentParser htmlAst={post.htmlAst}/>
+                <article>
+                    {contentParser(post.htmlAst)}
+                </article>
             </Main>
         </>
     )

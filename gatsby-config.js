@@ -3,7 +3,8 @@ const path = require("path");
 module.exports = {
     flags: {
         PARALLEL_SOURCING: true,
-        DEV_WEBPACK_CACHE: true
+        DEV_WEBPACK_CACHE: true,
+        DEV_SSR: true
     },
     siteMetadata: {
         siteUrl: "https://www.yourdomain.tld",

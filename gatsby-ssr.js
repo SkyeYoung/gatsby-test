@@ -1,9 +1,14 @@
-const React = require("react");
-const {enableStaticRendering} = require("mobx-react-lite");
-const Layout = require("./src/components/Layout").default
+import React from "react";
+import {enableStaticRendering} from "mobx-react-lite";
+import Provider from "./src/components/Provider";
+import Layout from "./src/components/Layout";
 
 enableStaticRendering(true)
 
-exports.wrapPageElement = ({element, props}) => {
-    return React.createElement(Layout, props, element)
+export const wrapPageElement = ({element, props}) => {
+    return <Layout {...props}>{element}</Layout>
+}
+
+export const wrapRootElement = ({element}) => {
+    return <Provider>{element}</Provider>
 }
