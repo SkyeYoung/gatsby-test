@@ -4,7 +4,9 @@ module.exports = {
     flags: {
         PARALLEL_SOURCING: true,
         DEV_WEBPACK_CACHE: true,
-        DEV_SSR: true
+        DEV_SSR: true,
+        LMDB_STORE: true,
+        PARALLEL_QUERY_RUNNING: true
     },
     siteMetadata: {
         siteUrl: "https://www.yourdomain.tld",
