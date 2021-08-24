@@ -14,6 +14,29 @@ module.exports = {
     },
     plugins: [
         {
+            resolve: "gatsby-source-filesystem",
+            options: {
+                name: 'docs',
+                path: `${__dirname}/docs`
+            },
+            __key: "pages",
+        },
+        {
+            resolve: "gatsby-source-filesystem",
+            options: {
+                name: 'locales',
+                path: `${__dirname}/locales`
+            },
+        },
+        {
+            resolve: "gatsby-plugin-i18next",
+            options: {
+                fallbackLng: 'en',
+                supportedLngs: ['en', 'zh'],
+                ns: ['header'],
+            }
+        },
+        {
             resolve: "gatsby-plugin-react-helmet"
         },
         {
@@ -23,25 +46,18 @@ module.exports = {
             resolve: "gatsby-plugin-mui-emotion"
         },
         {
-            resolve: "gatsby-source-filesystem",
-            options: {
-                name: './docs',
-                path: path.resolve('./docs'),
-            },
-            __key: "pages",
-        },
-        {
             resolve: 'gatsby-plugin-typegen',
             options: {
-                outputPath: path.resolve(__dirname, 'src/__generated__/gatsby-types.d.ts'),
+                outputPath: `${__dirname}/src/__generated__/gatsby-types.d.ts`,
                 emitSchema: {
-                    [path.resolve(__dirname, 'src/__generated__/gatsby-schema.graphql')]: true,
-                    [path.resolve(__dirname, 'src/__generated__/gatsby-introspection.json')]: true,
+                    [`${__dirname}/src/__generated__/gatsby-schema.graphql`]: true,
+                    [`${__dirname}/src/__generated__/gatsby-introspection.json`]: true,
                 },
                 emitPluginDocuments: {
-                    [path.resolve(__dirname, 'src/__generated__/gatsby-plugin-documents.graphql')]: true,
+                    [`${__dirname}/src/__generated__/gatsby-plugin-documents.graphql`]: true,
                 },
             },
         },
     ],
-};
+}
+;

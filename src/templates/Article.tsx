@@ -39,6 +39,16 @@ export const query = graphql`
                 title
             }
         }
+
+        allLocale {
+            edges {
+                node {
+                    ns
+                    data
+                    language
+                }
+            }
+        }
     }`
 
 const processor = unified()

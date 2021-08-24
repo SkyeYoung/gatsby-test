@@ -1,0 +1,14 @@
+{
+  "homepage": {
+    "title": "跳转到主页"
+  },
+  "toolbar": {
+    "lng": {
+      "name": "中文",
+      "title": "更改语言"
+    },
+    "repo": {
+      "title": "跳转到 GitHub 仓库"
+    }
+  }
+}

@@ -5,10 +5,12 @@ import {ThemeProvider} from "@material-ui/core";
 
 const Provider: React.FC = ({children}) => {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            {children}
-        </ThemeProvider>
+        <React.StrictMode>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                {children}
+            </ThemeProvider>
+        </React.StrictMode>
     )
 }
 

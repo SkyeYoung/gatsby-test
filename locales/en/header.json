@@ -1,0 +1,14 @@
+{
+  "homepage": {
+    "title": "Link to home page"
+  },
+  "toolbar": {
+    "lng": {
+      "name": "English",
+      "title": "Change Language"
+    },
+    "repo": {
+      "title": "Link to GitHub"
+    }
+  }
+}

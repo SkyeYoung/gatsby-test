@@ -1,18 +1,20 @@
 import Box from "@material-ui/core/Box";
 import {GatsbyLinkProps, graphql, Link as GLink, useStaticQuery} from "gatsby";
 import React, {useState} from "react";
-import {DeepRequiredNonNull} from "../types/common";
+import {DeepRequiredNonNull} from "../../types/common";
 import Stack from "@material-ui/core/Stack";
 import AppBar from "@material-ui/core/AppBar";
 import Link, {LinkProps} from "@material-ui/core/Link";
 import Slide from "@material-ui/core/Slide"
 import {useScroll} from "@use-gesture/react";
-import {window} from "../utils/common";
+import {window} from "../../utils/common";
 import {observer} from "mobx-react-lite";
-import {headerStore, infoStore} from "../stores";
+import {headerStore, infoStore} from "../../stores";
+import {useTranslation} from "react-i18next";
+import LngSwitch from "./LngSwitch";
 
 type InSiteLink = {
-    outSite?: false,
+    outSite?: false
 } & GatsbyLinkProps<any>
 
 type OutSiteLink = {
@@ -61,6 +63,7 @@ const Header: React.FC = observer(() => {
     const siteTitle = data.site.siteMetadata.title
     const [title, setTitle] = useState(siteTitle)
     const [elevation, setElevation] = useState(0);
+    const {t} = useTranslation(['header'])
 
     useScroll(({xy: [, y], delta: [, dy]}) => {
         setTitle(y > 0 ? infoStore.title : siteTitle)
@@ -82,12 +85,13 @@ const Header: React.FC = observer(() => {
                     padding: '0 20px',
                     height: 60,
                 }}>
-                <HeaderLink to={'/'} title={'Link to homepage'}>{title}</HeaderLink>
+                <HeaderLink to={'/'} title={t('header:homepage.title')}>{title}</HeaderLink>
                 <Box sx={{flexGrow: 1}}/>
-                <Stack direction={'row'}>
+                <Stack direction={'row'} alignItems={'center'}>
+                    <LngSwitch/>
                     <HeaderLink
                         outSite={true}
-                        title={'Link to GitHub'}
+                        title={t('header:toolbar.repo.title')}
                         href={'//github.com'}>
                         GitHub
                     </HeaderLink>
