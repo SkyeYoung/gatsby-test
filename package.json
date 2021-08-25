@@ -31,7 +31,6 @@
     "gatsby-transformer-remark": "^4.8.0",
     "gatsby-transformer-remark-rehype": "^4.0.0",
     "i18next": "^20.4.0",
-    "i18next-browser-languagedetector": "^6.1.2",
     "lmdb-store": "^1.6.6",
     "mobx": "^6.3.2",
     "mobx-react-lite": "^3.2.0",
