@@ -4,14 +4,14 @@ import Button, {ButtonProps} from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu"
 import {Nullable} from "../../types/common";
 import {useTranslation} from "react-i18next";
-import {MenuItem} from "@material-ui/core";
 import {I18nInfoContext} from "../../../plugins/gatsby-plugin-i18next/I18nWrapper";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const LngSwitch: React.FC = () => {
     const [anchorEle, setAnchorEle] = useState<Nullable<Element>>(null);
     const open = Boolean(anchorEle)
-    const {supportedLngs} = useContext(I18nInfoContext)
     const {t, i18n} = useTranslation(['header'])
+    const context = useContext(I18nInfoContext);
 
     const handleClick: ButtonProps['onClick'] = (event) => {
         setAnchorEle(event.currentTarget)
@@ -23,6 +23,7 @@ const LngSwitch: React.FC = () => {
     const chgLng = (lng: string) => {
         return async () => {
             await i18n.changeLanguage(lng)
+            window?.localStorage.setItem('i18nLng', lng)
             handleClose()
         }
     }
@@ -52,13 +53,12 @@ const LngSwitch: React.FC = () => {
                     'aria-labelledby': 'language-switch',
                 }}
             >
-                {supportedLngs
-                    .map((lng) =>
+                {context.supportedLngs
+                    ? Object.entries(context.supportedLngs)?.map(([lng, name]) =>
                         <MenuItem key={lng} onClick={chgLng(lng)}>
-                            {i18n.getResource(lng, 'header', 'toolbar.lng.name')}
+                            {name}
                         </MenuItem>
-                    )
-                }
+                    ) : null}
             </Menu>
         </Box>
     )

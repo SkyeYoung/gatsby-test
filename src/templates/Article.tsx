@@ -13,6 +13,8 @@ import Typography from "../components/article/Typography";
 import List from "../components/article/List";
 import styled from "@material-ui/core/styles/styled";
 import {Root} from "hast";
+import Box from "@material-ui/core/Box";
+import Header from "../components/Header";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -86,14 +88,19 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
         <>
             <Helmet title={`${title ? title + ' - ' : ''}${siteTitle}`}/>
 
-            <Sidebar toc={post.toc}/>
+            <Box sx={{display: 'flex', flexFlow: 'column'}}>
+                <Header/>
+                <Box sx={{display: 'flex', flexGrow: 1}}>
+                    <Sidebar toc={post.toc}/>
 
-            <Main>
-                <Title>{title}</Title>
-                <article>
-                    {contentParser(post.htmlAst)}
-                </article>
-            </Main>
+                    <Main>
+                        <Title>{title}</Title>
+                        <article>
+                            {contentParser(post.htmlAst)}
+                        </article>
+                    </Main>
+                </Box>
+            </Box>
         </>
     )
 }

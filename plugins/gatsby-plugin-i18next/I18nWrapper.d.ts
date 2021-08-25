@@ -1,14 +1,24 @@
 import React from "react";
-import {WrapPageElementNodeArgs, WrapRootElementNodeArgs} from "gatsby";
+import {WrapRootElementNodeArgs} from "gatsby";
 
-export type Language = {
+export type lngOption = {
+    storeKey: string;
+    supportedLngs: {
+        [key: string]: string
+    },
+    i18n: {
+        fallbackLng: string;
+        ns: string[];
+    }
+}
+
+export type Info = {
+    lng: string;
     fallbackLng: string;
-    supportedLngs: string[];
+    supportedLngs: lngOption["supportedLngs"],
     ns: string[];
 }
 
-export declare const I18nInfoContext: React.Context<Language>
+export declare const I18nInfoContext: React.Context<Info>
 
-export declare function Provider(args: Omit<WrapRootElementNodeArgs, 'element'>, options: Language);
-
-export declare function Layout(args: Omit<WrapPageElementNodeArgs, 'element' | 'props'>): JSX.Element
+export declare const WrapPageElement: (args: WrapRootElementNodeArgs) => JSX.Element

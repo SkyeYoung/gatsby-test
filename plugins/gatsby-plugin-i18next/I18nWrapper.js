@@ -1,21 +1,35 @@
-import React, {useContext} from "react";
+import React from "react";
+import {I18nextProvider, initReactI18next} from "react-i18next";
 import i18next from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import {I18nContext, I18nextProvider, initReactI18next} from "react-i18next";
+
+const fromNavigator = () => {
+    if (typeof window === 'undefined') return ''
+
+    const nav = window.navigator
+    const first = nav.languages
+        ? nav.languages[0]
+        : null
+
+    return first
+        || nav.language
+        || nav.userLanguage
+}
 
 export const I18nInfoContext = React.createContext({})
 
-const Provider = ({element}, language) => {
-    if (!language) {
-        throw new Error('no language options')
-    }
-
+const WrapPageElement = ({element, props}, lngOption) => {
+    const {data} = props
+    const STORE_KEY = lngOption.storeKey
     const i18n = i18next.createInstance()
 
-    i18n.use(LanguageDetector)
-        .use(initReactI18next)
+    let detectedLng;
+    if (typeof window !== 'undefined') {
+        detectedLng = window.localStorage.getItem(STORE_KEY) || fromNavigator()
+        window.localStorage.setItem(STORE_KEY, detectedLng)
+    }
+
+    i18n.use(initReactI18next)
         .init({
-            // initImmediate: false,
             debug: true,
             interpolation: {
                 escapeValue: false
@@ -24,37 +38,29 @@ const Provider = ({element}, language) => {
             react: {
                 useSuspense: false
             },
-            ...language
+            lng: detectedLng,
+            supportedLngs: Object.keys(lngOption.supportedLngs),
+            ...lngOption.i18n
         })
+
+    data.allLocale?.edges?.forEach(({node}) => {
+        i18n.addResourceBundle(node.language, node.ns, JSON.parse(node.data))
+    })
+
+    const info = {
+        lng: detectedLng,
+        supportedLngs: lngOption.supportedLngs,
+        ...lngOption.i18n
+    }
 
     return (
         <I18nextProvider i18n={i18n}>
-            <I18nInfoContext.Provider value={language}>
+            <I18nInfoContext.Provider value={info}>
                 {element}
             </I18nInfoContext.Provider>
         </I18nextProvider>
     )
 }
 
-const Layout = ({element, props}) => {
-    const {data} = props
-    const {i18n} = useContext(I18nContext)
-
-    // useEffect(() => {
-    data.allLocale?.edges?.forEach(({node}) => {
-        if (!i18n.hasResourceBundle(node.language, node.ns)) {
-            i18n.addResourceBundle(node.language, node.ns, JSON.parse(node.data))
-        }
-    })
-    // }, [i18n, data?.allLocale?.edges])
-
-    return element
-}
-
-const LayoutBuilder = ({element, props}) => {
-    return <Layout element={element} props={props}/>
-}
-
-
-export {Provider, LayoutBuilder as Layout}
+export {WrapPageElement}
 

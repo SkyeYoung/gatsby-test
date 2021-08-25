@@ -1,7 +1,3 @@
-import {Provider} from "./I18nWrapper";
+const {WrapPageElement} = require("./I18nWrapper");
 
-// export const wrapPageElement = Layout
-
-export const wrapRootElement = Provider
-
-
+exports.wrapPageElement = WrapPageElement
