@@ -7,6 +7,8 @@ interface SidebarStore {
 
     get toLeft(): number;
 
+    setCollapsed(val: boolean): void;
+
     toggle(): void;
 }
 
@@ -18,6 +20,9 @@ const sidebarStore = observable<SidebarStore>({
     get toLeft() {
         return this.collapsed ? 0 : -this.width
     },
+    setCollapsed(val: boolean) {
+        this.collapsed = val
+    },
     toggle() {
         this.collapsed = !this.collapsed
     },
@@ -26,35 +31,48 @@ const sidebarStore = observable<SidebarStore>({
     width: computed,
     toLeft: computed,
     toggle: action.bound,
-}, {proxy: false})
+    setCollapsed: action.bound
+})
 
 
 interface HeaderStore {
     appear: boolean;
 
     get height(): number;
+
+    setAppear(val: boolean): void;
 }
 
 const headerStore = observable<HeaderStore>({
     appear: true,
     get height() {
         return 60
+    },
+    setAppear(val: boolean) {
+        this.appear = val
     }
 }, {
     appear: observable,
-    height: computed
-}, {proxy: false})
+    height: computed,
+    setAppear: action.bound
+})
 
 
 interface InfoStore {
     title: string,
+
+    setTitle(val: string): void;
 }
 
 const infoStore = observable<InfoStore>({
     title: '',
+    setTitle(val: string): void {
+        this.title = val
+    },
 }, {
     title: observable,
-}, {proxy: false})
+    setTitle: action.bound
+})
 
 
 export {

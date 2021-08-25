@@ -68,7 +68,7 @@ const Header: React.FC = observer(() => {
     useScroll(({xy: [, y], delta: [, dy]}) => {
         setTitle(y > 0 ? infoStore.title : siteTitle)
         setElevation(y > 0 ? 2 : 0)
-        headerStore.appear = y <= 260 || dy < 0
+        headerStore.setAppear(y <= 260 || dy < 0)
     }, {
         target: window
     })

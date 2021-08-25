@@ -81,7 +81,7 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
     const title = post.frontmatter.title || post.parent.name;
 
     useEffect(() => {
-        infoStore.title = title
+        infoStore.setTitle(title)
     }, [title])
 
     return (
