@@ -11,10 +11,10 @@ import Link from "../components/article/Link";
 import Table from "../components/article/Table";
 import Typography from "../components/article/Typography";
 import List from "../components/article/List";
-import styled from "@material-ui/core/styles/styled";
 import {Root} from "hast";
 import Box from "@material-ui/core/Box";
 import Header from "../components/Header";
+import Title from "../components/Title";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -66,10 +66,6 @@ const processor = unified()
     } as Options)
 
 const contentParser = (htmlAst: Root) => (processor.stringify(htmlAst) as never as JSX.Element)
-
-const Title = styled(Typography.h1)`
-  margin-top: 2.5rem;
-`
 
 const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = ({data}) => {
     const {
