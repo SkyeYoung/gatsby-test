@@ -3,7 +3,7 @@ import Typography from "./article/Typography";
 import React, {useRef, useState} from "react";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
-import {IconButton} from "@material-ui/core";
+import {alpha, IconButton} from "@material-ui/core";
 import {MdThumbUp} from "react-icons/md";
 import {css} from "@emotion/react";
 import {animated, useSpring} from "react-spring";
@@ -13,16 +13,16 @@ import {window} from "../utils/common";
 import {headerStore} from "../stores";
 
 
-const StyledPaper = styled(animated(Paper))`
+const StyledPaper = styled(animated(Paper))(({theme}) => css`
   position: absolute;
   right: 0;
-  opacity: 0.6;
-  transition: opacity 300ms;
+  color: ${alpha(theme.palette.text.primary, 0.6)};
 
   &:hover {
-    opacity: 1;
+    color: ${theme.palette.text.primary}
   }
-`
+`)
+
 
 const Chip = styled('span')``
 
@@ -77,7 +77,7 @@ const Vote: React.FC = observer(() => {
     return (
         <StyledPaper
             ref={paperRef}
-            elevation={0}
+            elevation={adsorbed ? 2 : 0}
             style={
                 adsorbed ? {} : {x, y}}
             sx={
@@ -85,7 +85,8 @@ const Vote: React.FC = observer(() => {
                     position: "fixed",
                     right: toRight,
                     top: toTop,
-                    transition: 'top 300ms'
+                    transition: 'top 300ms',
+                    padding: '2px 6px 0'
                 } : {
                     position: "absolute",
                     bottom: "1.2rem"
