@@ -1,24 +1,30 @@
 import React from "react";
-import {WrapRootElementNodeArgs} from "gatsby";
+import {WrapPageElementNodeArgs, WrapRootElementBrowserArgs} from "gatsby";
+import {InitOptions} from "i18next";
 
-export type lngOption = {
+export type LngOption = {
     storeKey: string;
     supportedLngs: {
         [key: string]: string
     },
-    i18n: {
-        fallbackLng: string;
-        ns: string[];
-    }
+    docName: string;
+    i18n: InitOptions
+}
+
+export type LngSupport = {
+    siteSupport: boolean;
+    pageSupport: boolean;
 }
 
 export type Info = {
     lng: string;
     fallbackLng: string;
-    supportedLngs: lngOption["supportedLngs"],
+    supportedLngs: LngOption["supportedLngs"],
     ns: string[];
+    changeLng: (lng: string) => Promise<LngSupport>
 }
 
 export declare const I18nInfoContext: React.Context<Info>
 
-export declare const WrapPageElement: (args: WrapRootElementNodeArgs) => JSX.Element
+export declare const WrapRootElement: (args: WrapRootElementBrowserArgs, option: LngOption) => JSX.Element
+export declare const WrapPageElement: (args: WrapPageElementNodeArgs, option: LngOption) => JSX.Element

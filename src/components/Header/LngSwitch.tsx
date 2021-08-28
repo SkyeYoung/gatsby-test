@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 const LngSwitch: React.FC = () => {
     const [anchorEle, setAnchorEle] = useState<Nullable<Element>>(null);
     const open = Boolean(anchorEle)
-    const {t, i18n} = useTranslation(['header'])
+    const {t} = useTranslation(['header'])
     const context = useContext(I18nInfoContext);
 
     const handleClick: ButtonProps['onClick'] = (event) => {
@@ -22,8 +22,7 @@ const LngSwitch: React.FC = () => {
 
     const chgLng = (lng: string) => {
         return async () => {
-            await i18n.changeLanguage(lng)
-            window?.localStorage.setItem('i18nLng', lng)
+            await context.changeLng(lng)
             handleClose()
         }
     }

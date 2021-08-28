@@ -32,12 +32,13 @@ module.exports = {
             resolve: "gatsby-plugin-i18next",
             options: {
                 storeKey: 'i18nLng',
+                docName: 'docs',
                 supportedLngs: {
                     'en': 'English',
                     'zh': '中文'
                 },
                 i18n: {
-                    fallbackLng: 'en',
+                    fallbackLng: 'zh',
                     ns: ['header'],
                 }
             }

@@ -74,4 +74,55 @@ exports.onCreateNode = async (
     activity.end();
 };
 
+const cache = new Map()
+
+const lastEle = (arr) => arr[arr.length - 1]
+
+exports.onCreatePage = (
+    {page, actions, getNodesByType},
+    lngOption
+) => {
+    if (page.context.i18n) {
+        return
+    }
+
+    const {createPage, deletePage, createRedirect} = actions
+    const originPath = page.path
+    const originPathArr = originPath.split('/')
+    const name = lastEle(originPathArr)
+
+    if (cache.size === 0) {
+        const lngs = Object.keys(lngOption.supportedLngs)
+        if (!lngOption.docName) {
+            console.error('docName is undefined')
+        }
+        getNodesByType('File').forEach((v) => {
+            if (v.sourceInstanceName === lngOption.docName) {
+                const locale = v.relativeDirectory.split('/')[0]
+                const lng = lngs.includes(locale) ? locale : lngOption.i18n.fallbackLng
+                if (cache.has(v.name)) cache.get(v.name).push(lng)
+                else cache.set(v.name, [lng])
+            }
+        })
+    }
+
+    const lngs = cache.get(originPath === '/' ? 'index' : name)
+    if (lngs?.length > 0) {
+        const lng = lngs.find((v) => v === originPathArr[1]) || lngOption.i18n.fallbackLng
+        deletePage(page)
+        createPage({
+            ...page,
+            context: {
+                ...page.context,
+                i18n: {
+                    isFallback: lng === lngOption.i18n.fallbackLng,
+                    fallbackLng: lngOption.i18n.fallbackLng,
+                    lng,
+                    lngs
+                }
+            }
+        })
+    }
+}
+
 
