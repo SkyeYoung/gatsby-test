@@ -11,6 +11,7 @@ import {observer} from "mobx-react-lite";
 import {useScroll} from "@use-gesture/react";
 import {window} from "../utils/common";
 import {headerStore} from "../stores";
+import {useTranslation} from "react-i18next";
 
 
 const StyledPaper = styled(animated(Paper))(({theme}) => css`
@@ -43,6 +44,7 @@ const Vote: React.FC = observer(() => {
     const [adsorbed, setAdsorbed] = useState(false);
     const toRight = 50
     const toTop = (headerStore.appear ? headerStore.height : 0) + 20
+    const {t} = useTranslation(['common'])
 
     const {x, y} = useSpring({
         immediate: true,
@@ -94,9 +96,9 @@ const Vote: React.FC = observer(() => {
             }
 
         >
-            <Chip>本篇的质量？</Chip>
-            <UpVoteBtn title={'好'} aria-label={'好'}><VoteIcon/></UpVoteBtn>
-            <DnVoteBtn title={'差'} aria-label={'差'}><VoteIcon/></DnVoteBtn>
+            <Chip>{t('common:vote.name')}</Chip>
+            <UpVoteBtn title={t('common:vote.thumbUp')}><VoteIcon/></UpVoteBtn>
+            <DnVoteBtn title={t('common:vote.thumbDown')}><VoteIcon/></DnVoteBtn>
         </StyledPaper>
     )
 })

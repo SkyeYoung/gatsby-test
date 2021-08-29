@@ -5,7 +5,8 @@
   "toolbar": {
     "lng": {
       "name": "中文",
-      "title": "更改语言"
+      "title": "更改语言",
+      "unsupportedLngPrompt": "当期页面不支持 {{currentLng}}，已为您显示 {{fallbackLng}} 语言的内容"
     },
     "repo": {
       "title": "跳转到 GitHub 仓库"

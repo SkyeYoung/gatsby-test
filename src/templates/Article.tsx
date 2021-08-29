@@ -17,6 +17,7 @@ import Header from "../components/Header";
 import Title from "../components/Title";
 import {I18nPageInfoContext, I18nSiteInfoContext} from "../../plugins/gatsby-plugin-i18next/I18nWrapper";
 import {toast} from "react-toastify";
+import {useTranslation} from "react-i18next";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -79,13 +80,17 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
     const title = post.frontmatter.title || post.parent.name;
     const {supportedLngs} = useContext(I18nSiteInfoContext);
     const {lng, detectedLng} = useContext(I18nPageInfoContext);
+    const {t} = useTranslation(['header'])
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
         let toastId: number | string;
         if (typeof window !== "undefined" && detectedLng !== lng) {
             timeoutId = setTimeout(() => {
-                toastId = toast(`当前页面不支持 ${supportedLngs[detectedLng]} 语言，已为您显示 ${supportedLngs[lng]} 语言的内容`, {
+                toastId = toast(t('header:toolbar.lng.unsupportedLngPrompt', {
+                    currentLng: supportedLngs[detectedLng],
+                    fallbackLng: supportedLngs[lng]
+                }), {
                     position: "bottom-left",
                 })
             }, 300)

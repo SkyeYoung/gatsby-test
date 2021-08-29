@@ -5,7 +5,8 @@
   "toolbar": {
     "lng": {
       "name": "English",
-      "title": "Change Language"
+      "title": "Change Language",
+      "unsupportedLngPrompt": "The current page does not support {{currentLng}}, and the content in {{fallbackLng}} has been displayed for you"
     },
     "repo": {
       "title": "Link to GitHub"

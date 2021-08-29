@@ -1,0 +1,7 @@
+{
+  "vote": {
+    "name": "The quality of the article?",
+    "thumbUp": "good",
+    "thumbDown": "bad"
+  }
+}

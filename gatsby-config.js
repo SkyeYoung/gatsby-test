@@ -39,7 +39,7 @@ module.exports = {
                 },
                 i18n: {
                     fallbackLng: 'zh',
-                    ns: ['header'],
+                    ns: ['header', 'common'],
                 }
             }
         },

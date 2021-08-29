@@ -26,7 +26,10 @@ const LngSwitch: React.FC = () => {
         return async () => {
             await changeLng(lng).then(({pageSupport}) => {
                 if (!pageSupport) {
-                    toast(`当前页面不支持 ${supportedLngs[lng]} 语言，已为您显示 ${supportedLngs[pageLng]} 语言的内容`, {
+                    toast(t('header:toolbar.lng.unsupportedLngPrompt', {
+                        currentLng: supportedLngs[lng],
+                        fallbackLng: supportedLngs[pageLng]
+                    }), {
                         position: "bottom-left"
                     })
                 }
