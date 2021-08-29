@@ -1,6 +1,3 @@
-import Provider from "./src/components/Provider";
-import React from "react";
+import WrapRootElement from "./src/components/WrapRootElement";
 
-export const wrapRootElement = ({element}) => {
-    return <Provider>{element}</Provider>
-}
+export const wrapRootElement = WrapRootElement

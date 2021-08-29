@@ -58,7 +58,7 @@ const changeLng = async (i18n, i18nContext, storeKey, supportedLngs, lng) => {
     }
 }
 
-const I18nInfoContext = React.createContext({})
+const I18nSiteInfoContext = React.createContext({})
 
 const WrapRootElement = ({element}, lngOption) => {
     const supportedLngs = Object.keys(lngOption.supportedLngs)
@@ -81,9 +81,9 @@ const WrapRootElement = ({element}, lngOption) => {
 
     return (
         <I18nextProvider i18n={i18n}>
-            <I18nInfoContext.Provider value={lngOption}>
+            <I18nSiteInfoContext.Provider value={lngOption}>
                 {element}
-            </I18nInfoContext.Provider>
+            </I18nSiteInfoContext.Provider>
         </I18nextProvider>
     )
 }
@@ -91,13 +91,13 @@ const WrapRootElement = ({element}, lngOption) => {
 
 let localesLoaded = false
 
-const I18nUtilContext = React.createContext({})
+const I18nPageInfoContext = React.createContext({})
 
 const WrapPageElement = ({element, props}, lngOption) => {
     const {data, pageContext} = props
     const i18n = getI18n()
 
-    if (!pageContext) return element
+    if (!pageContext?.i18n) return element
 
     // load locales
     if (!localesLoaded) {
@@ -116,27 +116,33 @@ const WrapPageElement = ({element, props}, lngOption) => {
     //
     let detectedLng;
     if (typeof window !== 'undefined' && typeof i18nContext !== 'undefined') {
-        detectedLng = window.localStorage.getItem(STORE_KEY) || fromNavigator()
+        const localLng = window.localStorage.getItem(STORE_KEY)
+        detectedLng = localLng || fromNavigator()
         detectedLng = detectedLng.split('-')[0]
-        window.localStorage.setItem(STORE_KEY, detectedLng)
 
-        // change current page
+        // change current site language
+        changeSiteLng(i18n, STORE_KEY, supportedLngs, detectedLng)
+
+        // change current page language
         if (detectedLng !== i18nContext.lng) {
             changePageLng(i18nContext, detectedLng)
         }
     }
 
     const util = {
+        lng: i18nContext.lng,
+        lngs: i18nContext.lngs,
         detectedLng,
-        changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs)
+        changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs),
+        parseUrl: parseUrl.bind(null, pageContext.i18n.lngs, pageContext.i18n.fallbackLng)
     }
 
     return (
-        <I18nUtilContext.Provider value={util}>
+        <I18nPageInfoContext.Provider value={util}>
             {element}
-        </I18nUtilContext.Provider>
+        </I18nPageInfoContext.Provider>
     )
 }
 
-export {WrapRootElement, WrapPageElement, I18nInfoContext, I18nUtilContext, changeLng}
+export {WrapRootElement, WrapPageElement, I18nSiteInfoContext, I18nPageInfoContext, changeLng}
 

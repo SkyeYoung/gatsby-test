@@ -1,9 +1,7 @@
-import React from "react";
+import WrapRootElement from "./src/components/WrapRootElement";
 import {enableStaticRendering} from "mobx-react-lite";
-import Provider from "./src/components/Provider";
 
 enableStaticRendering(true)
 
-export const wrapRootElement = ({element}) => {
-    return <Provider>{element}</Provider>
-}
+export const wrapRootElement = WrapRootElement
+

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useContext, useEffect} from "react"
 import {Helmet} from "react-helmet"
 import rehypeReact, {Options} from "rehype-react";
 import {unified} from "unified";
@@ -15,6 +15,8 @@ import {Root} from "hast";
 import Box from "@material-ui/core/Box";
 import Header from "../components/Header";
 import Title from "../components/Title";
+import {I18nPageInfoContext, I18nSiteInfoContext} from "../../plugins/gatsby-plugin-i18next/I18nWrapper";
+import {toast} from "react-toastify";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -75,6 +77,25 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
 
     const siteTitle = site.siteMetadata.title
     const title = post.frontmatter.title || post.parent.name;
+    const {supportedLngs} = useContext(I18nSiteInfoContext);
+    const {lng, detectedLng} = useContext(I18nPageInfoContext);
+
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+        let toastId: number | string;
+        if (typeof window !== "undefined" && detectedLng !== lng) {
+            timeoutId = setTimeout(() => {
+                toastId = toast(`当前页面不支持 ${supportedLngs[detectedLng]} 语言，已为您显示 ${supportedLngs[lng]} 语言的内容`, {
+                    position: "bottom-left",
+                })
+            }, 300)
+        }
+
+        return () => {
+            clearTimeout(timeoutId)
+            toast.dismiss(toastId)
+        }
+    }, [])
 
     useEffect(() => {
         infoStore.setTitle(title)

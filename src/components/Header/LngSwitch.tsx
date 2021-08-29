@@ -4,15 +4,16 @@ import Button, {ButtonProps} from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu"
 import {Nullable} from "../../types/common";
 import {useTranslation} from "react-i18next";
-import {I18nInfoContext, I18nUtilContext} from "../../../plugins/gatsby-plugin-i18next/I18nWrapper";
+import {I18nPageInfoContext, I18nSiteInfoContext} from "../../../plugins/gatsby-plugin-i18next/I18nWrapper";
 import MenuItem from "@material-ui/core/MenuItem";
+import {toast} from "react-toastify";
 
 const LngSwitch: React.FC = () => {
     const [anchorEle, setAnchorEle] = useState<Nullable<Element>>(null);
     const open = Boolean(anchorEle)
     const {t} = useTranslation(['header'])
-    const infoContext = useContext(I18nInfoContext);
-    const utilContext = useContext(I18nUtilContext);
+    const {supportedLngs} = useContext(I18nSiteInfoContext);
+    const {lng: pageLng, changeLng} = useContext(I18nPageInfoContext);
 
     const handleClick: ButtonProps['onClick'] = (event) => {
         setAnchorEle(event.currentTarget)
@@ -23,7 +24,13 @@ const LngSwitch: React.FC = () => {
 
     const chgLng = (lng: string) => {
         return async () => {
-            await utilContext.changeLng(lng)
+            await changeLng(lng).then(({pageSupport}) => {
+                if (!pageSupport) {
+                    toast(`当前页面不支持 ${supportedLngs[lng]} 语言，已为您显示 ${supportedLngs[pageLng]} 语言的内容`, {
+                        position: "bottom-left"
+                    })
+                }
+            })
             handleClose()
         }
     }
@@ -44,7 +51,7 @@ const LngSwitch: React.FC = () => {
             >
                 {t('header:toolbar.lng.name')}
             </Button>
-            {infoContext.supportedLngs
+            {supportedLngs
                 ? <Menu
                     id="language-switch-menu"
                     anchorEl={anchorEle}
@@ -54,12 +61,11 @@ const LngSwitch: React.FC = () => {
                         'aria-labelledby': 'language-switch',
                     }}
                 >
-                    {
-                        Object.entries(infoContext.supportedLngs)?.map(([lng, name]) =>
-                            <MenuItem key={lng} onClick={chgLng(lng)}>
-                                {name}
-                            </MenuItem>
-                        )}
+                    {Object.entries(supportedLngs)?.map(([lng, name]) =>
+                        <MenuItem key={lng} onClick={chgLng(lng)}>
+                            {name}
+                        </MenuItem>
+                    )}
                 </Menu>
                 : null}
         </Box>

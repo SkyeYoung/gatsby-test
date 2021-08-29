@@ -17,17 +17,23 @@ export type LngSupport = {
     pageSupport: boolean;
 }
 
-export type Info = LngOption
+export type SiteInfo = LngOption
 
-export type Util = {
+export type PageInfo = {
+    lng: string;
+    supportLngs: string;
     detectedLng: string;
-    changeLng: (lng: string) => Promise<LngSupport>
+    changeLng: (lng: string) => Promise<LngSupport>,
+    parseUrl: () => {
+        url: string;
+        lng: string;
+    }
 }
 
 export declare const changeLng: (i18n: i18n, i18nPageContext: I18nPageContext, storeKey: string, supportedLngs: string[], lng) => Promise<LngSupport>
 
-export declare const I18nInfoContext: React.Context<Info>
-export declare const I18nUtilContext: React.Context<Util>
+export declare const I18nSiteInfoContext: React.Context<SiteInfo>
+export declare const I18nPageInfoContext: React.Context<PageInfo>
 
 export declare const WrapRootElement: (args: WrapRootElementBrowserArgs, option: LngOption) => JSX.Element
 export declare const WrapPageElement: (args: WrapPageElementNodeArgs, option: LngOption) => JSX.Element

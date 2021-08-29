@@ -31,6 +31,11 @@ const Link: React.FC<LinkProps> = (props) => {
         const MdExt = find(href.endsWith.bind(href), '.md', '.mdx', '.markdown', 'mdtext')
         if (MdExt) href = href.slice(0, -MdExt.length)
 
+        // add prefix slash
+        if (!find(href.startsWith.bind(href), '.', '/')) {
+            href = '/' + href
+        }
+
         // remove index
         href = removeIndex(href)
 
