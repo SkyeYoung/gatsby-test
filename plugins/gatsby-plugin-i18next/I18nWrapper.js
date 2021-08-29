@@ -17,7 +17,6 @@ const fromNavigator = () => {
         || nav.userLanguage
 }
 
-
 const withSlash = (url) => {
     return url.endsWith('/') ? url : (url + '/');
 }
@@ -59,6 +58,8 @@ const changeLng = async (i18n, i18nContext, storeKey, supportedLngs, lng) => {
     }
 }
 
+const I18nInfoContext = React.createContext({})
+
 const WrapRootElement = ({element}, lngOption) => {
     const supportedLngs = Object.keys(lngOption.supportedLngs)
     const i18n = i18next.createInstance()
@@ -77,26 +78,30 @@ const WrapRootElement = ({element}, lngOption) => {
             ...lngOption.i18n
         })
 
+
     return (
         <I18nextProvider i18n={i18n}>
-            {element}
+            <I18nInfoContext.Provider value={lngOption}>
+                {element}
+            </I18nInfoContext.Provider>
         </I18nextProvider>
     )
 }
 
-const I18nInfoContext = React.createContext({})
 
 let localesLoaded = false
+
+const I18nUtilContext = React.createContext({})
 
 const WrapPageElement = ({element, props}, lngOption) => {
     const {data, pageContext} = props
     const i18n = getI18n()
 
-    if (!data || !pageContext) return element
+    if (!pageContext) return element
 
     // load locales
     if (!localesLoaded) {
-        data.allLocale?.edges?.forEach(({node}) => {
+        data?.allLocale?.edges?.forEach(({node}) => {
             if (!i18n.hasResourceBundle(node.language, node.ns)) {
                 i18n.addResourceBundle(node.language, node.ns, JSON.parse(node.data))
             }
@@ -121,19 +126,17 @@ const WrapPageElement = ({element, props}, lngOption) => {
         }
     }
 
-    const info = {
-        ...lngOption.i18n,
-        lng: detectedLng,
-        supportedLngs: lngOption.supportedLngs,
+    const util = {
+        detectedLng,
         changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs)
     }
 
     return (
-        <I18nInfoContext.Provider value={info}>
+        <I18nUtilContext.Provider value={util}>
             {element}
-        </I18nInfoContext.Provider>
+        </I18nUtilContext.Provider>
     )
 }
 
-export {WrapRootElement, WrapPageElement, I18nInfoContext}
+export {WrapRootElement, WrapPageElement, I18nInfoContext, I18nUtilContext, changeLng}
 
