@@ -121,6 +121,7 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
                             {contentParser(post.htmlAst)}
                         </article>
                     </Main>
+
                 </Box>
             </Box>
         </>
