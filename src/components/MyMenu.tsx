@@ -10,7 +10,6 @@ import {Nullable} from "../types/common";
 const StyledPopper = styled(Popper)(({theme}) => css`
   position: absolute;
   z-index: ${theme.zIndex.tooltip};
-  pointer-events: none;
 `)
 
 export interface MyMenuProps extends PopperProps {
