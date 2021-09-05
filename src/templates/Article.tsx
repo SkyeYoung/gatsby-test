@@ -79,12 +79,13 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
     const siteTitle = site.siteMetadata.title
     const title = post.frontmatter.title || post.parent.name;
     const {supportedLngs} = useContext(I18nSiteInfoContext);
-    const {lng, detectedLng} = useContext(I18nPageInfoContext);
+    const {lng, detectLng} = useContext(I18nPageInfoContext);
     const {t} = useTranslation(['header'])
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
         let toastId: number | string;
+        const detectedLng = detectLng()
         if (typeof window !== "undefined" && detectedLng !== lng) {
             timeoutId = setTimeout(() => {
                 toastId = toast(t('header:toolbar.lng.unsupportedLngPrompt', {

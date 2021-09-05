@@ -22,7 +22,7 @@ export type SiteInfo = LngOption
 export type PageInfo = {
     lng: string;
     supportLngs: string;
-    detectedLng: string;
+    detectLng: () => string;
     changeLng: (lng: string) => Promise<LngSupport>,
     parseUrl: () => {
         url: string;

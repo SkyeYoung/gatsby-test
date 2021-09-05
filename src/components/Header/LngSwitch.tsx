@@ -18,7 +18,7 @@ const SwitchBtn = styled(Button)(({theme}) => css`
 const LngSwitch: React.FC = () => {
     const {t} = useTranslation(['header'])
     const {supportedLngs} = useContext(I18nSiteInfoContext);
-    const {lng: pageLng, changeLng, detectedLng} = useContext(I18nPageInfoContext);
+    const {lng: pageLng, changeLng, detectLng} = useContext(I18nPageInfoContext);
 
     const anchor = useRef<Nullable<HTMLButtonElement>>(null);
     const [open, setOpen] = useState(false);
@@ -42,6 +42,7 @@ const LngSwitch: React.FC = () => {
                         position: "bottom-left"
                     })
                 }
+                onClose()
             })
         }
     }
@@ -73,7 +74,8 @@ const LngSwitch: React.FC = () => {
                     <MenuItem
                         key={lng}
                         onClick={chgLng(lng)}
-                        selected={lng === detectedLng}>
+                        disabled={lng === detectLng()}
+                    >
                         {name}
                     </MenuItem>
                 )}

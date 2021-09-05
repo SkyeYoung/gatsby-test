@@ -4,6 +4,10 @@ import i18next from "i18next";
 import {globalHistory} from "@reach/router"
 import {navigate} from "gatsby";
 
+const fromLocal = (key) => {
+    return window.localStorage.getItem(key)
+}
+
 const fromNavigator = () => {
     if (typeof window === 'undefined') return ''
 
@@ -116,8 +120,7 @@ const WrapPageElement = ({element, props}, lngOption) => {
     //
     let detectedLng;
     if (typeof window !== 'undefined' && typeof i18nContext !== 'undefined') {
-        const localLng = window.localStorage.getItem(STORE_KEY)
-        detectedLng = localLng || fromNavigator()
+        detectedLng = fromLocal(STORE_KEY) || fromNavigator()
         detectedLng = detectedLng.split('-')[0]
 
         // change current site language
@@ -132,7 +135,7 @@ const WrapPageElement = ({element, props}, lngOption) => {
     const util = {
         lng: i18nContext.lng,
         lngs: i18nContext.lngs,
-        detectedLng,
+        detectLng: () => fromLocal(STORE_KEY),
         changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs),
         parseUrl: parseUrl.bind(null, pageContext.i18n.lngs, pageContext.i18n.fallbackLng)
     }

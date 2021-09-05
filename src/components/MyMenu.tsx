@@ -45,6 +45,9 @@ const MyMenu = React.forwardRef<HTMLDivElement, MyMenuProps>(function MyMenu(inP
             ref={ref}
             role="presentation"
             open={open}
+            sx={{
+                pointerEvents: open ? 'auto' : 'none'
+            }}
             transition={true}
             keepMounted={true}
             disablePortal={true}
