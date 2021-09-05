@@ -1,25 +1,34 @@
 import Box from "@material-ui/core/Box";
-import React, {useContext, useState} from "react";
-import Button, {ButtonProps} from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu"
-import {Nullable} from "../../types/common";
+import React, {useContext, useRef, useState} from "react";
+import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
 import {I18nPageInfoContext, I18nSiteInfoContext} from "../../../plugins/gatsby-plugin-i18next/I18nWrapper";
 import MenuItem from "@material-ui/core/MenuItem";
 import {toast} from "react-toastify";
+import MyMenu from "../MyMenu";
+import {css} from "@emotion/react";
+import styled from "@material-ui/core/styles/styled";
+import {Nullable} from "../../types/common";
+
+const SwitchBtn = styled(Button)(({theme}) => css`
+  color: white;
+  font-weight: ${theme.typography.fontWeightBold};
+`)
 
 const LngSwitch: React.FC = () => {
-    const [anchorEle, setAnchorEle] = useState<Nullable<Element>>(null);
-    const open = Boolean(anchorEle)
     const {t} = useTranslation(['header'])
     const {supportedLngs} = useContext(I18nSiteInfoContext);
-    const {lng: pageLng, changeLng} = useContext(I18nPageInfoContext);
+    const {lng: pageLng, changeLng, detectedLng} = useContext(I18nPageInfoContext);
 
-    const handleClick: ButtonProps['onClick'] = (event) => {
-        setAnchorEle(event.currentTarget)
+    const anchor = useRef<Nullable<HTMLButtonElement>>(null);
+    const [open, setOpen] = useState(false);
+    const id = open ? 'menu-popper' : undefined;
+
+    const toggleOpen = () => {
+        setOpen(!open)
     }
-    const handleClose = () => {
-        setAnchorEle(null)
+    const onClose = () => {
+        setOpen(false)
     }
 
     const chgLng = (lng: string) => {
@@ -34,43 +43,41 @@ const LngSwitch: React.FC = () => {
                     })
                 }
             })
-            handleClose()
         }
     }
 
     return (
         <Box>
-            <Button
-                sx={{
-                    color: 'white',
-                    fontWeight: 'bold'
-                }}
+            <SwitchBtn
+                ref={anchor}
                 id="language-switch"
-                aria-controls="language-switch-menu"
+                aria-describedby={id}
+                aria-controls={id}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 title={t('header:toolbar.lng.title')}
-                onClick={handleClick}
+                onClick={toggleOpen}
             >
                 {t('header:toolbar.lng.name')}
-            </Button>
-            {supportedLngs
-                ? <Menu
-                    id="language-switch-menu"
-                    anchorEl={anchorEle}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'language-switch',
-                    }}
-                >
-                    {Object.entries(supportedLngs)?.map(([lng, name]) =>
-                        <MenuItem key={lng} onClick={chgLng(lng)}>
-                            {name}
-                        </MenuItem>
-                    )}
-                </Menu>
-                : null}
+            </SwitchBtn>
+            <MyMenu
+                id={id}
+                anchorEl={anchor.current}
+                open={open}
+                onClose={onClose}
+                MenuListProps={{
+                    'aria-labelledby': 'language-switch',
+                }}
+            >
+                {Object.entries(supportedLngs)?.map(([lng, name]) =>
+                    <MenuItem
+                        key={lng}
+                        onClick={chgLng(lng)}
+                        selected={lng === detectedLng}>
+                        {name}
+                    </MenuItem>
+                )}
+            </MyMenu>
         </Box>
     )
 }
