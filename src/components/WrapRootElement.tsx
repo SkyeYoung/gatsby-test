@@ -5,6 +5,7 @@ import {ThemeProvider} from "@material-ui/core";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {WrapRootElementBrowserArgs} from "gatsby";
+import LinkCardContainer from "./LinkCardContainer";
 
 const WrapRootElement = ({element}: WrapRootElementBrowserArgs) => {
     return (
@@ -12,6 +13,7 @@ const WrapRootElement = ({element}: WrapRootElementBrowserArgs) => {
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <ToastContainer autoClose={5000}/>
+                <LinkCardContainer/>
                 {element}
             </ThemeProvider>
         </React.StrictMode>

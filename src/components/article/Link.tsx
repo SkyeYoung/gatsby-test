@@ -1,6 +1,7 @@
 import React from "react";
 import MLink, {LinkProps as MLinkProps} from "@material-ui/core/Link";
 import {GatsbyLinkProps, Link as GLink} from "gatsby";
+import {bindLinkCard} from "../LinkCardContainer";
 
 type Find = (func: ((exp: string) => boolean), ...exps: string[]) => string | undefined
 const find: Find = (func, ...exps) => exps.find((exp) => func(exp))
@@ -39,7 +40,7 @@ const Link: React.FC<LinkProps> = (props) => {
         // remove index
         href = removeIndex(href)
 
-        return <StyledLink component={GLink} to={href} {...others}/>
+        return <StyledLink component={GLink} to={href} {...bindLinkCard()} {...others}/>
     }
 }
 
