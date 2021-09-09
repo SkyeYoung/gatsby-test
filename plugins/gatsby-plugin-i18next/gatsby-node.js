@@ -74,9 +74,35 @@ exports.onCreateNode = async (
     activity.end();
 };
 
-const cache = new Map()
+/**
+ *
+ * @param {string} dirPath
+ * @param {string[]} langs
+ * @param {string} fallbackLang
+ * @return {{ locale: string, path: string}} locale with prefix slash
+ */
+const parseDir = (dirPath, langs, fallbackLang) => {
+    const dir = dirPath.startsWith('/') ? dirPath.substring(1) : dirPath;
+    const fstIdx = dir.indexOf('/')
+    const locale = fstIdx === -1 ? dir : dir.substring(0, fstIdx)
 
-const lastEle = (arr) => arr[arr.length - 1]
+    if (langs.includes(locale)) {
+        return {
+            locale,
+            path: fstIdx === -1 ? '/' : dir.substring(fstIdx)
+        }
+    } else {
+        return {
+            locale: fallbackLang,
+            path: '/' + dir
+        }
+    }
+}
+
+const cache = new Map()
+let info = new Map()
+const LGS = 'langs'
+const FBL = 'fallbackLang'
 
 exports.onCreatePage = (
     {page, actions, getNodesByType},
@@ -86,39 +112,46 @@ exports.onCreatePage = (
         return
     }
 
-    const {createPage, deletePage, createRedirect} = actions
-    const originPath = page.path
-    const originPathArr = originPath.split('/')
-    const name = lastEle(originPathArr)
-
+    // just run in first time
     if (cache.size === 0) {
-        const lngs = Object.keys(lngOption.supportedLngs)
         if (!lngOption.docName) {
             console.error('docName is undefined')
         }
+
+        info.set(LGS, Object.keys(lngOption.supportedLngs))
+        info.set(FBL, lngOption.i18n.fallbackLng)
+
         getNodesByType('File').forEach((v) => {
             if (v.sourceInstanceName === lngOption.docName) {
-                const locale = v.relativeDirectory.split('/')[0]
-                const lng = lngs.includes(locale) ? locale : lngOption.i18n.fallbackLng
-                if (cache.has(v.name)) cache.get(v.name).push(lng)
-                else cache.set(v.name, [lng])
+                const {path, locale} = parseDir(v.relativeDirectory, info.get(LGS), info.get(FBL))
+                const file = (path.endsWith('/') ? '' : path) + '/' + v.name
+
+                if (cache.has(file)) {
+                    cache.get(file).push(locale)
+                } else {
+                    cache.set(file, [locale])
+                }
             }
         })
     }
 
-    const lngs = cache.get(originPath === '/' ? 'index' : name)
-    if (lngs?.length > 0) {
-        const lng = lngs.find((v) => v === originPathArr[1]) || lngOption.i18n.fallbackLng
+    // get page supported languages
+    const {locale, path} = parseDir(page.path, info.get(LGS), info.get(FBL))
+    const langs = cache.get(path.endsWith('/') ? (path + 'index') : path)
+
+    if (langs?.length > 0) {
+        const {createPage, deletePage} = actions
+        const lang = langs.find((v) => v === locale)
         deletePage(page)
         createPage({
             ...page,
             context: {
                 ...page.context,
                 i18n: {
-                    isFallback: lng === lngOption.i18n.fallbackLng,
-                    fallbackLng: lngOption.i18n.fallbackLng,
-                    lng,
-                    lngs
+                    isFallback: langs === info.get(FBL),
+                    fallbackLng: info.get(FBL),
+                    lng: lang,
+                    lngs: langs
                 }
             }
         })

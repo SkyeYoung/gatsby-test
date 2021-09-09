@@ -5,6 +5,7 @@ import {globalHistory} from "@reach/router"
 import {navigate} from "gatsby";
 
 const fromLocal = (key) => {
+    if (typeof window === 'undefined') return ''
     return window.localStorage.getItem(key)
 }
 
@@ -47,6 +48,7 @@ const changePageLng = async (i18nContext, lng) => {
 }
 
 const changeSiteLng = async (i18n, storeKey, supportedLngs, lng) => {
+    if (typeof window === 'undefined') return
     if (supportedLngs.includes(lng)) {
         window.localStorage.setItem(storeKey, lng)
         await i18n.changeLanguage(lng)
@@ -135,7 +137,7 @@ const WrapPageElement = ({element, props}, lngOption) => {
     const util = {
         lng: i18nContext.lng,
         lngs: i18nContext.lngs,
-        detectLng: () => fromLocal(STORE_KEY),
+        detectLng: fromLocal.bind(null, STORE_KEY),
         changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs),
         parseUrl: parseUrl.bind(null, pageContext.i18n.lngs, pageContext.i18n.fallbackLng)
     }

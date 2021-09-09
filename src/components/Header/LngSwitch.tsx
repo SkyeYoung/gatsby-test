@@ -23,6 +23,7 @@ const LngSwitch: React.FC = () => {
     const anchor = useRef<Nullable<HTMLButtonElement>>(null);
     const [open, setOpen] = useState(false);
     const id = open ? 'menu-popper' : undefined;
+    const detectedLng = typeof detectLng === 'function' ? detectLng() : ''
 
     const toggleOpen = () => {
         setOpen(!open)
@@ -74,7 +75,7 @@ const LngSwitch: React.FC = () => {
                     <MenuItem
                         key={lng}
                         onClick={chgLng(lng)}
-                        disabled={lng === detectLng()}
+                        disabled={lng === detectedLng}
                     >
                         {name}
                     </MenuItem>
