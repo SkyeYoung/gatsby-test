@@ -21,9 +21,12 @@ const LngSwitch: React.FC = () => {
     const {lng: pageLng, changeLng, detectLng} = useContext(I18nPageInfoContext);
 
     const anchor = useRef<Nullable<HTMLButtonElement>>(null);
+    const [detectedLang, setDetectedLang] = useState(detectLng());
     const [open, setOpen] = useState(false);
-    const id = open ? 'menu-popper' : undefined;
-    const detectedLng = typeof detectLng === 'function' ? detectLng() : ''
+    const id = React.useMemo(() => open ? 'menu-popper' : undefined, [open])
+    const expended = React.useMemo(() => open ? 'true' : undefined, [open])
+
+    const switchBtnId = 'language-switch'
 
     const toggleOpen = () => {
         setOpen(!open)
@@ -32,12 +35,13 @@ const LngSwitch: React.FC = () => {
         setOpen(false)
     }
 
-    const chgLng = (lng: string) => {
+    const chgLng = (lang: string) => {
         return async () => {
-            await changeLng(lng).then(({pageSupport}) => {
+            await changeLng(lang).then(({pageSupport}) => {
+                setDetectedLang(lang)
                 if (!pageSupport) {
                     toast(t('header:toolbar.lng.unsupportedLngPrompt', {
-                        currentLng: supportedLngs[lng],
+                        currentLng: supportedLngs[lang],
                         fallbackLng: supportedLngs[pageLng]
                     }), {
                         position: "bottom-left"
@@ -52,11 +56,11 @@ const LngSwitch: React.FC = () => {
         <Box>
             <SwitchBtn
                 ref={anchor}
-                id="language-switch"
+                id={switchBtnId}
+                aria-haspopup="true"
                 aria-describedby={id}
                 aria-controls={id}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
+                aria-expanded={expended}
                 title={t('header:toolbar.lng.title')}
                 onClick={toggleOpen}
             >
@@ -68,14 +72,14 @@ const LngSwitch: React.FC = () => {
                 open={open}
                 onClose={onClose}
                 MenuListProps={{
-                    'aria-labelledby': 'language-switch',
+                    'aria-labelledby': switchBtnId,
                 }}
             >
-                {Object.entries(supportedLngs)?.map(([lng, name]) =>
+                {Object.entries(supportedLngs).map(([lang, name]) =>
                     <MenuItem
-                        key={lng}
-                        onClick={chgLng(lng)}
-                        disabled={lng === detectedLng}
+                        key={lang}
+                        onClick={chgLng(lang)}
+                        disabled={lang === detectedLang}
                     >
                         {name}
                     </MenuItem>
