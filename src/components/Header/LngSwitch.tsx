@@ -9,6 +9,7 @@ import MyMenu from "../MyMenu";
 import {css} from "@emotion/react";
 import styled from "@material-ui/core/styles/styled";
 import {Nullable} from "../../types/common";
+import {NoSsr} from "@material-ui/core";
 
 const SwitchBtn = styled(Button)(({theme}) => css`
   color: white;
@@ -53,39 +54,41 @@ const LngSwitch: React.FC = () => {
     }
 
     return (
-        <Box>
-            <SwitchBtn
-                ref={anchor}
-                id={switchBtnId}
-                aria-haspopup="true"
-                aria-describedby={id}
-                aria-controls={id}
-                aria-expanded={expended}
-                title={t('header:toolbar.lng.title')}
-                onClick={toggleOpen}
-            >
-                {t('header:toolbar.lng.name')}
-            </SwitchBtn>
-            <MyMenu
-                id={id}
-                anchorEl={anchor.current}
-                open={open}
-                onClose={onClose}
-                MenuListProps={{
-                    'aria-labelledby': switchBtnId,
-                }}
-            >
-                {Object.entries(supportedLngs).map(([lang, name]) =>
-                    <MenuItem
-                        key={lang}
-                        onClick={chgLng(lang)}
-                        disabled={lang === detectedLang}
-                    >
-                        {name}
-                    </MenuItem>
-                )}
-            </MyMenu>
-        </Box>
+        <NoSsr>
+            <Box>
+                <SwitchBtn
+                    ref={anchor}
+                    id={switchBtnId}
+                    aria-haspopup="true"
+                    aria-describedby={id}
+                    aria-controls={id}
+                    aria-expanded={expended}
+                    title={t('header:toolbar.lng.title')}
+                    onClick={toggleOpen}
+                >
+                    {t('header:toolbar.lng.name')}
+                </SwitchBtn>
+                <MyMenu
+                    id={id}
+                    anchorEl={anchor.current}
+                    open={open}
+                    onClose={onClose}
+                    MenuListProps={{
+                        'aria-labelledby': switchBtnId,
+                    }}
+                >
+                    {Object.entries(supportedLngs).map(([lang, name]) =>
+                        <MenuItem
+                            key={lang}
+                            onClick={chgLng(lang)}
+                            disabled={lang === detectedLang}
+                        >
+                            {name}
+                        </MenuItem>
+                    )}
+                </MyMenu>
+            </Box>
+        </NoSsr>
     )
 }
 
