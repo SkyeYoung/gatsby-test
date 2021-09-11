@@ -1,5 +1,5 @@
 import styled from "@material-ui/core/styles/styled";
-import Typography from "./article/Typography";
+import Typography from "./stand-in/Typography";
 import React from "react";
 import Box from "@material-ui/core/Box";
 
