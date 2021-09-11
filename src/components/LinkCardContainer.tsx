@@ -6,6 +6,7 @@ import styled from "@material-ui/core/styles/styled";
 import {Card, CardContent} from "@material-ui/core";
 import {css} from "@emotion/react";
 import {Property} from "csstype";
+import {getWindowSize} from "../utils/common";
 
 interface Status {
     x: number;
@@ -113,11 +114,7 @@ const bindLinkCard = () => {
         if (!el) el = e.currentTarget
         const elRect = el.getBoundingClientRect()
         const cardRect = linkCardRef.current?.getBoundingClientRect() || {x: 0, y: 0, width: 0, height: 0}
-
-        const viewport = {
-            width: window?.innerWidth || document.documentElement.clientWidth,
-            height: window?.innerHeight || document.documentElement.clientHeight,
-        }
+        const viewport = getWindowSize()
 
         let to: Status = {
             x: elRect.x + elRect.width / 2 - cardRect.width / 2,
