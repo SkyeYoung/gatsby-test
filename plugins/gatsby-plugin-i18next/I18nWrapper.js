@@ -1,5 +1,5 @@
-import React from "react";
-import {getI18n, I18nextProvider, initReactI18next} from "react-i18next";
+import React, {useEffect} from "react";
+import {I18nextProvider, initReactI18next} from "react-i18next";
 import i18next from "i18next";
 import {globalHistory} from "@reach/router"
 import {navigate} from "gatsby";
@@ -66,9 +66,10 @@ const changeLng = async (i18n, i18nContext, storeKey, supportedLngs, lng) => {
 
 const I18nSiteInfoContext = React.createContext({})
 
+const i18n = i18next.createInstance()
+
 const WrapRootElement = ({element}, lngOption) => {
     const supportedLngs = Object.keys(lngOption.supportedLngs)
-    const i18n = i18next.createInstance()
 
     i18n.use(initReactI18next)
         .init({
@@ -84,69 +85,84 @@ const WrapRootElement = ({element}, lngOption) => {
             ...lngOption.i18n
         })
 
-
     return (
-        <I18nextProvider i18n={i18n}>
-            <I18nSiteInfoContext.Provider value={lngOption}>
+        <I18nSiteInfoContext.Provider value={lngOption}>
+            <I18nextProvider i18n={i18n}>
                 {element}
-            </I18nSiteInfoContext.Provider>
-        </I18nextProvider>
+            </I18nextProvider>
+        </I18nSiteInfoContext.Provider>
     )
 }
 
 
-let localesLoaded = false
-
 const I18nPageInfoContext = React.createContext({})
 
-const WrapPageElement = ({element, props}, lngOption) => {
-    const {data, pageContext} = props
-    const i18n = getI18n()
+const WithI18nLayout = (props) => {
+    const {children, pageI18nInfo, storeKey, supportedLngs} = props
 
-    if (!pageContext?.i18n) return element
+    useEffect(() => {
+        let detectedLng;
+        if (typeof window !== 'undefined' && typeof pageI18nInfo !== 'undefined') {
+            detectedLng = fromLocal(storeKey) || fromNavigator()
+            detectedLng = detectedLng.split('-')[0]
 
-    // load locales
-    if (!localesLoaded) {
-        data?.allLocale?.edges?.forEach(({node}) => {
-            if (!i18n.hasResourceBundle(node.language, node.ns)) {
-                i18n.addResourceBundle(node.language, node.ns, JSON.parse(node.data))
+            // change current site language
+            changeSiteLng(i18n, storeKey, supportedLngs, detectedLng)
+
+            // change current page language
+            if (detectedLng !== pageI18nInfo.lng) {
+                changePageLng(pageI18nInfo, detectedLng)
             }
-        })
-        localesLoaded = true
-    }
 
-    const STORE_KEY = lngOption.storeKey
-    const {i18n: i18nContext} = pageContext
-    const supportedLngs = Object.keys(lngOption.supportedLngs)
-
-    //
-    let detectedLng;
-    if (typeof window !== 'undefined' && typeof i18nContext !== 'undefined') {
-        detectedLng = fromLocal(STORE_KEY) || fromNavigator()
-        detectedLng = detectedLng.split('-')[0]
-
-        // change current site language
-        changeSiteLng(i18n, STORE_KEY, supportedLngs, detectedLng)
-
-        // change current page language
-        if (detectedLng !== i18nContext.lng) {
-            changePageLng(i18nContext, detectedLng)
         }
-    }
+    }, [changeSiteLng, changePageLng, fromNavigator, fromLocal])
 
     const util = {
-        lng: i18nContext.lng,
-        lngs: i18nContext.lngs,
-        detectLng: fromLocal.bind(null, STORE_KEY),
-        changeLng: changeLng.bind(null, i18n, pageContext.i18n, STORE_KEY, supportedLngs),
-        parseUrl: parseUrl.bind(null, pageContext.i18n.lngs, pageContext.i18n.fallbackLng)
+        lng: pageI18nInfo.lng,
+        lngs: pageI18nInfo.lngs,
+        detectLng: fromLocal.bind(null, storeKey),
+        changeLng: changeLng.bind(null, i18n, pageI18nInfo, storeKey, supportedLngs),
+        parseUrl: parseUrl.bind(null, pageI18nInfo.lngs, pageI18nInfo.fallbackLng)
     }
 
     return (
         <I18nPageInfoContext.Provider value={util}>
-            {element}
+            {children}
         </I18nPageInfoContext.Provider>
     )
+}
+
+let localesLoaded = false
+const WrapPageElement = ({element, props}, lngOption) => {
+    const {data, pageContext} = props
+
+    if (pageContext?.i18n) {
+        // load locales
+        if (!localesLoaded) {
+            data?.allLocale?.edges?.forEach(({node}) => {
+                if (!i18n.hasResourceBundle(node.language, node.ns)) {
+                    i18n.addResourceBundle(node.language, node.ns, JSON.parse(node.data))
+                }
+            })
+
+            i18n.isInitialized = true;
+            localesLoaded = true
+        }
+
+        const {i18n: pageI18nInfo} = pageContext || {}
+        const supportedLngs = Object.keys(lngOption.supportedLngs)
+
+        return (
+            <WithI18nLayout
+                pageI18nInfo={pageI18nInfo}
+                supportedLngs={supportedLngs}
+                storeKey={lngOption.storeKey}>
+                {element}
+            </WithI18nLayout>
+        )
+    } else {
+        return element
+    }
 }
 
 export {WrapRootElement, WrapPageElement, I18nSiteInfoContext, I18nPageInfoContext, changeLng}
