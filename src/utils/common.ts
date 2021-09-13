@@ -1,6 +1,6 @@
 import {Nothing} from "nothing-mock";
 
-const win = typeof window === 'undefined' ? Nothing : window
+const win: Window = typeof window === 'undefined' ? Nothing : window
 
 const getWindowSize = () => {
     return {
