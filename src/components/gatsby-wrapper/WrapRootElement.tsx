@@ -4,7 +4,7 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {WrapRootElementBrowserArgs} from "gatsby";
 import LinkCardContainer from "../LinkCardContainer";
-import theme from "../../theme/theme";
+import {theme} from "../../theme";
 import CSSVars from "../CSSVars";
 
 const WrapRootElement = ({element}: WrapRootElementBrowserArgs) => {

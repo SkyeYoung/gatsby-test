@@ -6,7 +6,7 @@ import {DeepRequiredNonNull} from "../types/common";
 import {graphql} from "gatsby";
 import Main from "../components/Main";
 import Sidebar from "../components/Sidebar";
-import {infoStore} from "../stores";
+import {infoStore} from "../stores/stores";
 import Link from "../components/stand-in/Link";
 import Table from "../components/stand-in/Table";
 import Typography from "../components/stand-in/Typography";

@@ -3,7 +3,7 @@ import React from "react";
 import {observer} from "mobx-react-lite";
 import IconButton from "@material-ui/core/IconButton";
 import {RiMenuFoldLine, RiMenuUnfoldLine} from "react-icons/ri";
-import {headerStore, sidebarStore} from "../stores";
+import {headerStore, sidebarStore} from "../stores/stores";
 
 const CollapseBtn = observer(() => {
     const ICON_SIZE = 40

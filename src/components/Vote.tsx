@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import {css} from "@emotion/react";
 import {alpha, IconButton} from "@material-ui/core";
 import {observer} from "mobx-react-lite";
-import {headerStore} from "../stores";
+import {headerStore} from "../stores/stores";
 import {useTranslation} from "react-i18next";
 import {useScroll} from "@use-gesture/react";
 import {window} from "../utils/common";

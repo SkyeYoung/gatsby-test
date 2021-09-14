@@ -9,7 +9,7 @@ import Slide from "@material-ui/core/Slide"
 import {useScroll} from "@use-gesture/react";
 import {window} from "../../utils/common";
 import {observer} from "mobx-react-lite";
-import {headerStore, infoStore} from "../../stores";
+import {headerStore, infoStore} from "../../stores/stores";
 import {useTranslation} from "react-i18next";
 import LngSwitch from "./LngSwitch";
 import ThemeModeSwitch from "./ThemeModeSwitch";

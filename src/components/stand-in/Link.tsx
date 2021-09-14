@@ -37,7 +37,7 @@ const Link: React.FC<LinkProps> = (props) => {
             href = '/' + href
         }
 
-        // remove index
+        // remove theme
         href = removeIndex(href)
 
         return <StyledLink component={GLink} to={href} {...bindLinkCard()} {...others}/>
