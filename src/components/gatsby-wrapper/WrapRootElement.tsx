@@ -1,21 +1,20 @@
-import theme from "../theme/theme";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
-import {ThemeProvider} from "@material-ui/core";
+import {CssBaseline, ThemeProvider} from "@material-ui/core";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {WrapRootElementBrowserArgs} from "gatsby";
-import LinkCardContainer from "./LinkCardContainer";
-import Palette from "./Palette";
+import LinkCardContainer from "../LinkCardContainer";
+import theme from "../../theme/theme";
+import CSSVars from "../CSSVars";
 
 const WrapRootElement = ({element}: WrapRootElementBrowserArgs) => {
 
     return (
         <React.StrictMode>
+            <ToastContainer autoClose={5000}/>
+            <CSSVars/>
             <ThemeProvider theme={theme}>
-                <Palette/>
                 <CssBaseline/>
-                <ToastContainer autoClose={5000}/>
                 <LinkCardContainer/>
                 {element}
             </ThemeProvider>

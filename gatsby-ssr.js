@@ -1,6 +1,6 @@
-import WrapRootElement from "./src/components/WrapRootElement";
+import WrapRootElement from "./src/components/gatsby-wrapper/WrapRootElement";
 import {enableStaticRendering} from "mobx-react-lite";
-import OnRenderBody from "./src/components/OnRenderBody";
+import OnRenderBody from "./src/components/gatsby-wrapper/OnRenderBody";
 
 enableStaticRendering(true)
 
