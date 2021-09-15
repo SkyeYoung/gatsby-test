@@ -1,0 +1,40 @@
+import {VarsStore} from "../stores/css-vars-store";
+
+const cssVars = () => {
+    const DB = 'persist-info';
+    const STORE = 'keyvaluepairs'
+    const KEY = 'css-vars';
+
+    const mapToStr = (map: Map<string, string>) =>
+        Array.from(map).map(([k, v]) => `${k}: ${v};`).join('\n');
+
+    const dbOpenReq = window.indexedDB.open(DB);
+    dbOpenReq.onsuccess = () => {
+        const db = dbOpenReq.result;
+        const trans = db.transaction([STORE], 'readonly')
+        const query = trans.objectStore(STORE).get(KEY)
+        query.onsuccess = () => {
+            const res = query.result as VarsStore
+
+            const style = `
+              :root {
+                color-scheme: light;
+                ${mapToStr(res.light)}
+              }
+
+              :root[data-theme="dark"] {
+                color-scheme: dark;
+                ${mapToStr(res.dark)}
+              }
+            `.replace(/\s/g, '');
+
+            const styleEl = document.getElementById(KEY)
+            if (styleEl) {
+                console.log('dddd')
+                styleEl.innerHTML = style
+            }
+        }
+    }
+}
+
+export default cssVars

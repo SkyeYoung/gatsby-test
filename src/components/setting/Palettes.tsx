@@ -1,9 +1,10 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback} from "react";
 import {observer} from "mobx-react-lite";
 import Box from "@material-ui/core/Box";
 import {ModeLabel, varsStore} from "../../stores/css-vars-store";
 import {RgbaStringColorPicker} from "react-colorful";
 import {Typography} from "@material-ui/core";
+import {computed} from "mobx";
 
 interface PaletteProps {
     label: ModeLabel,
@@ -12,7 +13,8 @@ interface PaletteProps {
 
 const Palette: React.FC<PaletteProps> = observer((props) => {
     const {label, attr} = props
-    const color = useMemo(() => varsStore.getWithKey(label, attr), [varsStore, label, attr])
+
+    const color = computed(() => varsStore.getWithKey(label, attr)).get()
     const setColor = useCallback((newColor: string) => {
         const val = newColor.match(/^rgba\((.+)\)$/)
         if (val) {

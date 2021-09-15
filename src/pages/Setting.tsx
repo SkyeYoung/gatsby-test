@@ -17,7 +17,7 @@ const Setting: React.FC = () => {
     `) as DeepRequiredNonNull<GatsbyTypes.SiteInfoQuery>
 
     const siteTitle = site.siteMetadata.title
-
+    
     return (
         <>
             <Helmet title={`settings - ${siteTitle}`}/>

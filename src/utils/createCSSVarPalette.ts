@@ -1,5 +1,6 @@
 import {decomposeColor, hslToRgb, Palette, PaletteColor} from "@material-ui/core";
 import {TypeAction, TypeText} from "@material-ui/core/styles/createPalette";
+import {css} from "@emotion/react";
 
 const paletteColorKeys: (keyof Palette)[] = [
     'primary',
@@ -126,5 +127,18 @@ const createCSSVarPalette = (palette: Palette): CSSVarPalette => {
 
 const mapToStr = (map: CSSVarPalette['lightMap']) => Array.from(map).map(([k, v]) => `${k}: ${v};`).join('\n')
 
+const computeCSS = (light: CSSVarPalette['lightMap'], dark: CSSVarPalette['darkMap']) => {
+    return css`
+      :root {
+        color-scheme: light;
+        ${mapToStr(light)}
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        ${mapToStr(dark)}
+      }
+    `
+}
 export default createCSSVarPalette
-export {mapToStr}
+export {mapToStr, computeCSS}

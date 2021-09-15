@@ -3,19 +3,20 @@ import * as localforage from "localforage";
 import {PersistenceStorageOptions} from "mobx-persist-store/lib/esm2017/types";
 import {IReactionOptions} from "mobx";
 
-
-type PersistStore = <T extends {
+type Store = {
     [key: string]: any;
-}, P extends keyof T>(target: T, storageOptions: PersistenceStorageOptions<P>, reactionOptions?: IReactionOptions) => void;
+}
+type PersistStore = <T extends Store, P extends keyof T>(target: T, storageOptions: PersistenceStorageOptions<P>, reactionOptions?: IReactionOptions) => void;
 
-const persistStore: PersistStore = (store, storageOption, reactionOption) => {
+
+const persistStore: PersistStore = async (store, storageOption, reactionOption) => {
     if (typeof window === 'undefined') return
 
     const persistStorage = localforage.createInstance({
-        name: "persist-info"
+        name: 'persist-info',
     });
 
-    makePersistable(
+    await makePersistable(
         store,
         {
             storage: persistStorage,
@@ -30,9 +31,7 @@ const persistStore: PersistStore = (store, storageOption, reactionOption) => {
             delay: 200,
             ...reactionOption
         }
-    ).then((persistStore) => {
-        console.log(persistStore.isHydrated)
-    })
+    )
 }
 
 export default persistStore

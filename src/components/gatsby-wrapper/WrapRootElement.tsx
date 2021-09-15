@@ -5,14 +5,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import {WrapRootElementBrowserArgs} from "gatsby";
 import LinkCardContainer from "../LinkCardContainer";
 import {theme} from "../../theme";
-import CSSVars from "../CSSVars";
+import StoreHandler from "../StoreHandler";
 
 const WrapRootElement = ({element}: WrapRootElementBrowserArgs) => {
 
     return (
         <React.StrictMode>
+            <StoreHandler/>
             <ToastContainer autoClose={5000}/>
-            <CSSVars/>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <LinkCardContainer/>
