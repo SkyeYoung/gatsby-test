@@ -9,10 +9,12 @@ const cssVars = () => {
         Array.from(map).map(([k, v]) => `${k}: ${v};`).join('\n');
 
     const dbOpenReq = window.indexedDB.open(DB);
+    const styleEl = document.getElementById(KEY)
     dbOpenReq.onsuccess = () => {
         const db = dbOpenReq.result;
         const trans = db.transaction([STORE], 'readonly')
         const query = trans.objectStore(STORE).get(KEY)
+
         query.onsuccess = () => {
             const res = query.result as VarsStore
 
@@ -26,11 +28,9 @@ const cssVars = () => {
                 color-scheme: dark;
                 ${mapToStr(res.dark)}
               }
-            `.replace(/\s/g, '');
+            `;
 
-            const styleEl = document.getElementById(KEY)
             if (styleEl) {
-                console.log('dddd')
                 styleEl.innerHTML = style
             }
         }
