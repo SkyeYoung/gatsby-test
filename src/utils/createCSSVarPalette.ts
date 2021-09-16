@@ -141,4 +141,4 @@ const computeCSS = (light: CSSVarPalette['lightMap'], dark: CSSVarPalette['darkM
     `
 }
 export default createCSSVarPalette
-export {mapToStr, computeCSS}
+export {mapToStr, computeCSS, varColor}
