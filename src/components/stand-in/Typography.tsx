@@ -6,7 +6,7 @@ import {alpha} from "@material-ui/core";
 
 type TypBuilder = (initProps: TypographyProps & { component?: string }) => React.FC<TypographyProps>
 const typBuilder: TypBuilder = (initProps) => (props) => {
-    return <Typ {...initProps} {...props}/>
+    return <Typ sx={{textTransform: 'capitalize'}} {...initProps} {...props}/>
 }
 
 const Code = styled(typBuilder({component: 'code'}))(({theme}) => css`

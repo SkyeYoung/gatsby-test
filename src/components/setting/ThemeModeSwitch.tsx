@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
-import {ButtonGroup, NoSsr} from "@material-ui/core";
-import styled from "@material-ui/core/styles/styled";
-import {css} from "@emotion/react";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import {window} from "../../utils/common";
+import Typography from "../stand-in/Typography";
 
 const THEME_MODE = {
     light: 'light',
@@ -12,11 +11,6 @@ const THEME_MODE = {
 }
 
 type ThemeModeKey = keyof typeof THEME_MODE
-
-const SwitchBtn = styled(Button)(({theme}) => css`
-  color: white;
-  font-weight: ${theme.typography.fontWeightBold};
-`)
 
 const ThemeModeSwitch = () => {
     const [mode, setMode] = useState<string | undefined>(window.__theme || THEME_MODE.light);
@@ -29,22 +23,23 @@ const ThemeModeSwitch = () => {
     }
 
     return (
-        <NoSsr>
-            <ButtonGroup>
+        <>
+            <Typography.h1>Mode</Typography.h1>
+            <ButtonGroup variant={'outlined'} aria-label="outlined primary button group">
                 {Object.keys(THEME_MODE).map((k) => {
                     const v = THEME_MODE[k as ThemeModeKey]
                     return (
-                        <SwitchBtn
+                        <Button
                             key={k}
                             onClick={handleClick(v)}
-                            color={mode === v ? 'success' : 'info'}
+                            color={mode === v ? 'success' : 'inherit'}
                         >
                             {k}
-                        </SwitchBtn>
+                        </Button>
                     )
                 })}
             </ButtonGroup>
-        </NoSsr>
+        </>
     )
 }
 

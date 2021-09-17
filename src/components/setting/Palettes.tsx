@@ -13,6 +13,9 @@ import {Nullable} from "../../types/common";
 import {VirtualElement} from '@popperjs/core';
 import {varColor} from "../../utils/createCSSVarPalette";
 import {ClickAwayListenerProps} from "@material-ui/core/ClickAwayListener/ClickAwayListener";
+import Typ from "../stand-in/Typography"
+import {useScroll} from "@use-gesture/react";
+import {window} from "../../utils/common";
 
 interface PalettePopperProps extends PopperProps {
     PaperProps?: PaperProps;
@@ -110,6 +113,14 @@ const PalettePopper: React.FC<PalettePopperProps> = observer((inProps) => {
         }
     }
 
+    useScroll(({delta: [, deltaY]}) => {
+        if (deltaY !== 0) {
+            onClose()
+        }
+    }, {
+        target: window
+    })
+
     return (
         <ClickAwayListener onClickAway={onClickAway}>
             <StyledPopper
@@ -132,13 +143,12 @@ const PalettePopper: React.FC<PalettePopperProps> = observer((inProps) => {
                             rootBoundary: 'document',
                             padding: 8,
                         },
-
-
                     },
                     {
                         name: 'computeStyles',
                         options: {
-                            adaptive: false, // true by default
+                            gpuAcceleration: true,
+                            adaptive: false,
                         },
                     },
                 ]}
@@ -161,19 +171,27 @@ const PalettePopper: React.FC<PalettePopperProps> = observer((inProps) => {
     )
 })
 
+const Wrapper = styled(Box)(({theme}) => css`
+  display: inline-block;
+  width: 160px;
+  border-radius: 8px;
+  border: 3px solid white;
+  padding: 8px 4px 2px;
+  margin: 10px;
+  box-shadow: ${theme.shadows[2]};
+`)
+
 const Name = styled(Typography)`
-  font-size: 12px;
+  font-size: smaller;
+  font-variant: small-caps;
+  margin-top: 2px;
 `
 
 const Swatch = styled(Box)`
-  display: inline-list-item;
-  border: 3px solid white;
-  border-radius: 8px;
-  width: 140px;
   height: 50px;
   cursor: pointer;
-  margin: 10px;
-  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
 `
 
 const Palette: React.FC<PaletteProps> = observer((props) => {
@@ -202,23 +220,51 @@ const Palette: React.FC<PaletteProps> = observer((props) => {
     }
 
     return (
-        <Swatch ref={ref} sx={{bgcolor: varColor(attr), boxShadow: 1}} onClick={onClick}>
-            <Name>{attr.substring(2)}</Name>
-        </Swatch>
+        <Wrapper>
+            <Swatch ref={ref} sx={{bgcolor: varColor(attr)}} onClick={onClick}/>
+            <Name>
+                {attr
+                    .substring(2)
+                    .split('-')
+                    .map((v) => v.charAt(0).toUpperCase() + v.slice(1))
+                    .join(' ')
+                }
+            </Name>
+        </Wrapper>
     )
 })
+
+const StyledPalettes = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+`
+
+const modes: ModeLabel[] = ['light', 'dark']
 
 const Palettes: React.FC = observer(() => {
     const [open, setOpen] = useState(false);
 
     return (
-        <Box>
+        <>
             <PalettePopper open={open} onClose={() => setOpen(false)}/>
-            {Array.from(varsStore.light.keys()).map((v) =>
-                varsStore.light.get(v)?.includes(',') &&
-                <Palette key={v} label={'light'} attr={v} setOpen={setOpen}/>
-            )}
-        </Box>
+            {
+                modes.map((label) => {
+                    return (
+                        <>
+                            <Typ.h1 key={label + '-name'}>{label}</Typ.h1>
+                            <StyledPalettes key={label}>
+                                {Array.from(varsStore[label].keys()).map((attr) =>
+                                    varsStore[label].get(attr)?.includes(',') &&
+                                    <Palette key={attr} label={label} attr={attr} setOpen={setOpen}/>
+                                )}
+                            </StyledPalettes>
+                        </>
+                    )
+                })
+            }
+        </>
     )
 })
 

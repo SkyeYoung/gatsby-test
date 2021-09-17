@@ -12,7 +12,6 @@ import {observer} from "mobx-react-lite";
 import {headerStore, infoStore} from "../../stores/stores";
 import {useTranslation} from "react-i18next";
 import LngSwitch from "./LngSwitch";
-import ThemeModeSwitch from "./ThemeModeSwitch";
 
 type InSiteLink = {
     outSite?: false
@@ -89,8 +88,13 @@ const Header: React.FC = observer(() => {
                 <HeaderLink to={'/'} title={t('header:homepage.title')}>{title}</HeaderLink>
                 <Box sx={{flexGrow: 1}}/>
                 <Stack direction={'row'} alignItems={'center'}>
-                    <ThemeModeSwitch/>
                     <LngSwitch/>
+                    <HeaderLink
+                        outSite={false}
+                        title={'settings'}
+                        to={'/settings'}>
+                        Settings
+                    </HeaderLink>
                     <HeaderLink
                         outSite={true}
                         title={t('header:toolbar.repo.title')}

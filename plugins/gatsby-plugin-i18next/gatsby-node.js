@@ -139,9 +139,9 @@ exports.onCreatePage = (
     const {locale, path} = parseDir(page.path, info.get(LGS), info.get(FBL))
     const langs = cache.get(path.endsWith('/') ? (path + 'index') : path)
 
-    if (langs?.length > 0) {
+    if (langs?.length > 0 || page.isCreatedByStatefulCreatePages) {
         const {createPage, deletePage} = actions
-        const lang = langs.find((v) => v === locale)
+        const lang = langs?.find((v) => v === locale) || info.get(FBL)
         deletePage(page)
         createPage({
             ...page,
@@ -151,7 +151,7 @@ exports.onCreatePage = (
                     isFallback: langs === info.get(FBL),
                     fallbackLng: info.get(FBL),
                     lng: lang,
-                    lngs: langs
+                    lngs: langs || info.get(LGS)
                 }
             }
         })
