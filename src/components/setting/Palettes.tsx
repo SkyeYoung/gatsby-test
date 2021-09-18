@@ -91,7 +91,7 @@ const PalettePopper: React.FC<PalettePopperProps> = observer((inProps) => {
 
     const transition = computed(() => {
         const popperRect = ref.current?.getBoundingClientRect() || DEFAULT_RECT
-        return popperRect.left === 0 || popperRect.top === 0
+        return popperRect.left <= 0 || popperRect.top <= 0
             ? undefined
             : 'transform 225ms ease-in-out'
     }).get()
