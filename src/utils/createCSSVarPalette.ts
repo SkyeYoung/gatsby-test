@@ -39,6 +39,10 @@ const varColor = (str: string) => {
 const rgbaColor = (colorStr: string, fallbackAlpha: number = 1): string => {
     const color = decomposeColor(colorStr)
 
+    if (isNaN(color.values[0])) {
+        color.values.shift()
+    }
+
     switch (color.type) {
         case "hsla":
         case "hsl":
