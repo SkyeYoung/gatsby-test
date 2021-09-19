@@ -5,7 +5,7 @@ import {unified} from "unified";
 import {DeepRequiredNonNull} from "../types/common";
 import {graphql} from "gatsby";
 import Main from "../components/Main";
-import Sidebar from "../components/Sidebar";
+import NavSidebar from "../components/NavSidebar";
 import {infoStore} from "../stores/stores";
 import Link from "../components/stand-in/Link";
 import Table from "../components/stand-in/Table";
@@ -18,6 +18,7 @@ import Title from "../components/Title";
 import {I18nPageInfoContext, I18nSiteInfoContext} from "../../plugins/gatsby-plugin-i18next/I18nWrapper";
 import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
+import TocSidebar from "../components/TocSidebar";
 
 export const query = graphql`
     query Post($id: String!) {
@@ -114,7 +115,7 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
                 <Header/>
                 <Box sx={{display: 'flex', flexGrow: 1}}>
-                    <Sidebar toc={post.toc}/>
+                    <NavSidebar toc={post.toc}/>
 
                     <Main>
                         <Title>{title}</Title>
@@ -123,6 +124,7 @@ const Article: React.FC<{ data: DeepRequiredNonNull<GatsbyTypes.PostQuery> }> = 
                         </article>
                     </Main>
 
+                    <TocSidebar toc={post.toc}/>
                 </Box>
             </Box>
         </>

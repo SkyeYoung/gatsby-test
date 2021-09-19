@@ -1,26 +1,18 @@
 import React from "react";
 import Box, {BoxProps} from "@material-ui/core/Box";
-import {css} from "@emotion/react";
 import {IconButton, IconButtonProps} from "@material-ui/core";
 import {MdNavigateBefore, MdNavigateNext} from "react-icons/md";
 import {IconType} from "react-icons";
 import Footer from "./Footer";
 import {observer} from "mobx-react-lite";
 import styled from "@material-ui/core/styles/styled";
+import {navSidebarStore, tocSidebarStore} from "../stores/sidebar-store";
 
-const Content = styled(Box)(({theme}) => css`
+const Content = styled(Box)`
   flex-grow: 1;
   margin: auto;
-  padding: 0 120px 120px;
-
-  ${theme.breakpoints.down('xl')} {
-    min-width: 1000px;
-  }
-
-  ${theme.breakpoints.down('lg')} {
-    min-width: 800px;
-  }
-`)
+  padding: 0 50px 120px;
+`
 
 const NavBtn: React.FC<IconButtonProps & { Icon: IconType }> = observer((props) => {
     const {Icon, sx, ...others} = props
@@ -51,6 +43,7 @@ const NextNavBtn = observer(() => (
 
 const Main: React.FC<BoxProps> = observer((props) => {
     const {children, ...others} = props
+    const width = `calc(100vw - ${navSidebarStore.width + tocSidebarStore.width}px)`
 
     return (
         <Box sx={{
@@ -59,7 +52,9 @@ const Main: React.FC<BoxProps> = observer((props) => {
             flexGrow: 1,
             position: 'relative',
         }} {...others}>
-            <Content>{children}</Content>
+            <Content sx={{
+                width
+            }}>{children}</Content>
 
             <PrevNavBtn/>
             <NextNavBtn/>

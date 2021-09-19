@@ -32,7 +32,7 @@ const sidebarStore = observable<SidebarStore>({
     toLeft: computed,
     toggle: action.bound,
     setCollapsed: action.bound
-})
+}, {})
 
 
 interface HeaderStore {
