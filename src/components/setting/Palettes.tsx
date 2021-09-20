@@ -1,21 +1,22 @@
 import React, {useCallback, useMemo, useRef, useState} from "react";
 import {observer} from "mobx-react-lite";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import {ModeLabel, varsStore} from "../../stores/css-vars-store";
 import {RgbaStringColorPicker} from "react-colorful";
-import {ClickAwayListener, Grow, Typography} from "@material-ui/core";
 import {action, computed, observable} from "mobx";
-import styled from "@material-ui/core/styles/styled";
-import Popper, {PopperProps} from "@material-ui/core/Popper";
+import Popper, {PopperProps} from "@mui/material/Popper";
 import {css} from "@emotion/react";
-import Paper, {PaperProps} from "@material-ui/core/Paper";
+import Paper, {PaperProps} from "@mui/material/Paper";
 import {Nullable} from "../../types/common";
 import {VirtualElement} from '@popperjs/core';
 import {varColor} from "../../utils/createCSSVarPalette";
-import {ClickAwayListenerProps} from "@material-ui/core/ClickAwayListener/ClickAwayListener";
+import ClickAwayListener, {ClickAwayListenerProps} from "@mui/material/ClickAwayListener";
 import Typ from "../stand-in/Typography"
 import {useScroll} from "@use-gesture/react";
 import {window} from "../../utils/common";
+import styled from "@mui/material/styles/styled";
+import Grow from "@mui/material/Grow";
+import Typography from "@mui/material/Typography"
 
 interface PalettePopperProps extends PopperProps {
     PaperProps?: PaperProps;

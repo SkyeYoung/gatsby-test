@@ -1,8 +1,8 @@
-import Typ, {TypographyProps} from "@material-ui/core/Typography";
 import React from "react";
-import styled from "@material-ui/core/styles/styled";
 import {css} from "@emotion/react";
-import {alpha} from "@material-ui/core";
+import Typ, {TypographyProps} from "@mui/material/Typography"
+import styled from "@mui/material/styles/styled";
+import {alpha} from "@mui/system/colorManipulator";
 
 type TypBuilder = (initProps: TypographyProps & { component?: string }) => React.FC<TypographyProps>
 const typBuilder: TypBuilder = (initProps) => (props) => {

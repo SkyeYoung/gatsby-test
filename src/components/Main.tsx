@@ -1,12 +1,12 @@
 import React from "react";
-import Box, {BoxProps} from "@material-ui/core/Box";
-import {IconButton, IconButtonProps} from "@material-ui/core";
 import {MdNavigateBefore, MdNavigateNext} from "react-icons/md";
 import {IconType} from "react-icons";
 import Footer from "./Footer";
 import {observer} from "mobx-react-lite";
-import styled from "@material-ui/core/styles/styled";
 import {navSidebarStore, tocSidebarStore} from "../stores/sidebar-store";
+import IconButton, {IconButtonProps} from "@mui/material/IconButton";
+import Box, {BoxProps} from "@mui/material/Box";
+import styled from "@mui/material/styles/styled";
 
 const Content = styled(Box)`
   flex-grow: 1;

@@ -1,5 +1,5 @@
 import React from "react";
-import MLink, {LinkProps as MLinkProps} from "@material-ui/core/Link";
+import MLink, {LinkProps as MLinkProps} from "@mui/material/Link";
 import {GatsbyLinkProps, Link as GLink} from "gatsby";
 import {bindLinkCard} from "../LinkCardContainer";
 

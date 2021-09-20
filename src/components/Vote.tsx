@@ -1,15 +1,16 @@
 import React, {useRef, useState} from "react";
 import {MdThumbUp} from "react-icons/md";
-import styled from "@material-ui/core/styles/styled";
 import {animated, useSpring} from "react-spring";
-import Paper from "@material-ui/core/Paper";
 import {css} from "@emotion/react";
-import {alpha, IconButton} from "@material-ui/core";
 import {observer} from "mobx-react-lite";
 import {headerStore} from "../stores/stores";
 import {useTranslation} from "react-i18next";
 import {useScroll} from "@use-gesture/react";
 import {window} from "../utils/common";
+import styled from "@mui/material/styles/styled";
+import Paper from "@mui/material/Paper";
+import {alpha} from "@mui/system/colorManipulator";
+import IconButton from "@mui/material/IconButton";
 
 const StyledPaper = styled(animated(Paper))(({theme}) => css`
   position: absolute;

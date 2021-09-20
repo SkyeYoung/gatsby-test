@@ -1,5 +1,5 @@
-import Box from "@material-ui/core/Box";
 import React from "react";
+import Box from "@mui/material/Box";
 
 const Footer: React.FC = () => {
     return <Box sx={{

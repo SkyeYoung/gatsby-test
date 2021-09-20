@@ -1,7 +1,7 @@
-import styled from "@material-ui/core/styles/styled";
 import Typography from "./stand-in/Typography";
 import React from "react";
-import Box from "@material-ui/core/Box";
+import styled from "@mui/material/styles/styled";
+import Box from "@mui/material/Box";
 
 
 const StyledH1 = styled(Typography.h1)`

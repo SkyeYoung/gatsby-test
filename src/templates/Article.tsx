@@ -12,7 +12,7 @@ import Table from "../components/stand-in/Table";
 import Typography from "../components/stand-in/Typography";
 import List from "../components/stand-in/List";
 import {Root} from "hast";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import Header from "../components/Header";
 import Title from "../components/Title";
 import {I18nPageInfoContext, I18nSiteInfoContext} from "../../plugins/gatsby-plugin-i18next/I18nWrapper";

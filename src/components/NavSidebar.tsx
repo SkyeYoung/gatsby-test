@@ -1,12 +1,12 @@
-import Box from "@material-ui/core/Box";
 import React from "react";
 import {observer} from "mobx-react-lite";
-import IconButton from "@material-ui/core/IconButton";
 import {RiMenuFoldLine, RiMenuUnfoldLine} from "react-icons/ri";
 import {headerStore} from "../stores/stores";
-import styled from "@material-ui/core/styles/styled";
 import {css} from "@emotion/react";
 import {navSidebarStore} from "../stores/sidebar-store";
+import IconButton from "@mui/material/IconButton";
+import styled from "@mui/material/styles/styled";
+import Box from "@mui/material/Box";
 
 const ICON_SIZE = 40
 const BTN_SIZE = ICON_SIZE + 20

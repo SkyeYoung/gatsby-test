@@ -1,13 +1,13 @@
 import React, {useMemo} from "react";
 import {DeepRequiredNonNull} from "../types/common";
 import {Helmet} from "react-helmet";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import {graphql} from "gatsby";
 import Palettes from "../components/setting/Palettes";
 import Header from "../components/Header";
 import {sidebarStore} from "../stores/stores";
 import ThemeModeSwitch from "../components/setting/ThemeModeSwitch";
-import {useTheme} from "@material-ui/core";
+import useTheme from "@mui/material/styles/useTheme";
 
 export const query = graphql`
     query SiteBasicInfo {

@@ -1,11 +1,11 @@
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import {GatsbyLinkProps, graphql, Link as GLink, useStaticQuery} from "gatsby";
 import React, {useState} from "react";
 import {DeepRequiredNonNull} from "../../types/common";
-import Stack from "@material-ui/core/Stack";
-import AppBar from "@material-ui/core/AppBar";
-import Link, {LinkProps} from "@material-ui/core/Link";
-import Slide from "@material-ui/core/Slide"
+import Stack from "@mui/material/Stack";
+import AppBar from "@mui/material/AppBar";
+import Link, {LinkProps} from "@mui/material/Link";
+import Slide from "@mui/material/Slide"
 import {useScroll} from "@use-gesture/react";
 import {window} from "../../utils/common";
 import {observer} from "mobx-react-lite";

@@ -1,5 +1,5 @@
-import {decomposeColor, hslToRgb, Palette, PaletteColor} from "@material-ui/core";
-import {TypeAction, TypeText} from "@material-ui/core/styles/createPalette";
+import {decomposeColor, hslToRgb} from "@mui/system/colorManipulator";
+import {Palette, PaletteColor, TypeAction, TypeText} from "@mui/material/styles/createPalette";
 import {css} from "@emotion/react";
 
 const paletteColorKeys: (keyof Palette)[] = [

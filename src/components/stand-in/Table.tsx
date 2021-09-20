@@ -1,13 +1,13 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import TableContainer from "@material-ui/core/TableContainer";
-import MTable, {TableProps} from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import styled from "@material-ui/core/styles/styled";
 import {css} from "@emotion/react";
+import MTable, {TableProps} from "@mui/material/Table"
+import TableContainer from "@mui/material/TableContainer";
+import Paper from "@mui/material/Paper";
+import styled from "@mui/material/styles/styled";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 const StyledTable: React.FC<TableProps> = (props) => {
     const {sx, ...others} = props

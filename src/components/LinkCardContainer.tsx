@@ -2,11 +2,12 @@ import React, {createRef, MouseEventHandler} from "react";
 import {animated, useSpring} from "react-spring";
 import {action, observable} from "mobx";
 import {observer} from "mobx-react-lite";
-import styled from "@material-ui/core/styles/styled";
-import {Card, CardContent} from "@material-ui/core";
 import {css} from "@emotion/react";
 import {Property} from "csstype";
 import {getWindowSize} from "../utils/common";
+import Card from "@mui/material/Card";
+import styled from "@mui/material/styles/styled";
+import CardContent from "@mui/material/CardContent";
 
 interface Status {
     x: number;

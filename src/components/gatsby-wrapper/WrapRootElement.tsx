@@ -1,5 +1,6 @@
 import React from "react";
-import {CssBaseline, ThemeProvider} from "@material-ui/core";
+import CssBaseline from "@mui/material/CssBaseline"
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {WrapRootElementBrowserArgs} from "gatsby";

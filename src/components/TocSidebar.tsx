@@ -4,7 +4,7 @@ import {RiMenuFoldLine, RiMenuUnfoldLine} from "react-icons/ri";
 import React from "react";
 import {BTN_SIZE, ContainerBox, ICON_SIZE, StyledIconBtn, WrapperBox} from "./NavSidebar";
 import {headerStore} from "../stores/stores";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 
 const TocCollapseBtn = observer(() => {
     const icon = tocSidebarStore.collapsed

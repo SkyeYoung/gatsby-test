@@ -1,15 +1,15 @@
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import React, {useContext, useRef, useState} from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import {useTranslation} from "react-i18next";
 import {I18nPageInfoContext, I18nSiteInfoContext} from "../../../plugins/gatsby-plugin-i18next/I18nWrapper";
-import MenuItem from "@material-ui/core/MenuItem";
+import MenuItem from "@mui/material/MenuItem";
 import {toast} from "react-toastify";
 import MyMenu from "../MyMenu";
 import {css} from "@emotion/react";
-import styled from "@material-ui/core/styles/styled";
+import styled from "@mui/material/styles/styled";
 import {Nullable} from "../../types/common";
-import {NoSsr} from "@material-ui/core";
+import NoSsr from "@mui/material/NoSsr";
 
 const SwitchBtn = styled(Button)(({theme}) => css`
   color: white;

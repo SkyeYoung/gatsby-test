@@ -1,11 +1,13 @@
-import Popper, {PopperProps} from "@material-ui/core/Popper";
 import React from "react";
-import Paper, {PaperProps} from "@material-ui/core/Paper";
-import {ClickAwayListener, Grow, MenuList, MenuListProps} from "@material-ui/core";
-import {ClickAwayListenerProps} from "@material-ui/core/ClickAwayListener/ClickAwayListener";
-import styled from "@material-ui/core/styles/styled";
 import {css} from "@emotion/react";
 import {Nullable} from "../types/common";
+import Popper, {PopperProps} from "@mui/material/Popper";
+import styled from "@mui/material/styles/styled";
+import Paper, {PaperProps} from "@mui/material/Paper";
+import {ClickAwayListenerProps} from "@mui/material/ClickAwayListener";
+import MenuList, {MenuListProps} from "@mui/material/MenuList";
+import Grow from "@mui/material/Grow";
+import {ClickAwayListener} from "@mui/material";
 
 const StyledPopper = styled(Popper)(({theme}) => css`
   position: absolute;

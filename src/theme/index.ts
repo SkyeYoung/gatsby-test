@@ -1,5 +1,5 @@
-import {createTheme} from "@material-ui/core";
-import {grey} from "@material-ui/core/colors";
+import createTheme from "@mui/material/styles/createTheme";
+import {grey} from "@mui/material/colors";
 import {CSSProperties} from "react";
 
 const commonTypo: CSSProperties = {

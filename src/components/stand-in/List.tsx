@@ -1,5 +1,5 @@
-import styled from "@material-ui/core/styles/styled";
 import {css} from "@emotion/react";
+import styled from "@mui/material/styles/styled";
 
 const listStyle = css`
   padding-inline-start: 0;
